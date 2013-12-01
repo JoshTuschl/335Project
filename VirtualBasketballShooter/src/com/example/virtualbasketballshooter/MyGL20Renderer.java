@@ -16,6 +16,8 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	private Square mSquare;
 	private Cube mCube; 
 	private Cube mLeg;
+	private Cube mPole;
+	private Cube mBackboard;
 	private Cube mEndBumper;
 	private Cube mSideBumper;
 	private Sphere mSphere; 
@@ -35,11 +37,16 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	private final float[] mRotationMatrix = new float[16];
 	private final float[] mRotationXMatrix = new float[16];
 	private final float[] mRotationYMatrix = new float[16];
+	private final float[] mBackboardMVPMatrix = new float[16];
 	private final float[] GREEN = new float[]{(float)(49.0/255.0), (float)(153.0/255.0), (float)(94.0/255.0), 1.0f};
 	private final float[] BROWN = new float[]{(float)(69.0/255.0), (float)(42.0/255.0), (float)(14.0/255.0), 1.0f};
 	private final float[] RED = new float[]{(float)(253.0/255.0), (float)(3.0/255.0), (float)(3.0/255.0), 1.0f};
 	private final float[] BLUE = new float[]{(float)(3.0/255.0), (float)(11.0/255.0), (float)(253.0/255.0), 1.0f};
 	private final float[] PURPLE = new float[]{(float)(115.0/255.0), (float)(4.0/255.0), (float)(198.0/255.0), 1.0f};
+	private final float[] BasketballOrange = new float[]{(float)(255.0/255.0), (float)(102.0/255.0), (float)(0.0/255.0), 1.0f};
+	private final float[] UKBlue = new float[]{(float)(0.0/255.0), (float)(93.0/255.0), (float)(170.0/255.0), 1.0f};
+	private final float[] METAL = new float[]{(float)(219.0/255.0), (float)(228.0/255.0), (float)(235.0/255.0), 1.0f};
+	private final float[] WHITE = new float[]{(float)(255.0/255.0), (float)(255.0/255.0), (float)(255.0/255.0), 1.0f};
 	private final float[] mTemp = new float [16]; 
 	
 	// Set up the view's OpenGL ES environment
@@ -60,6 +67,8 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		mEndBumper = new Cube();
 		mSideBumper = new Cube();
 		mLeg = new Cube();
+		mBackboard = new Cube();
+		mPole = new Cube();
 		
 		mSphere = new Sphere(1.0f, 20, 40); 
 	}
@@ -91,6 +100,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		Matrix.multiplyMM(mSphereMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
 		Matrix.multiplyMM(mEndMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
 		Matrix.multiplyMM(mSideMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+		Matrix.multiplyMM(mBackboardMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
 		
 		// normal mat = transpose(inv(modelview)); 
 		Matrix.multiplyMM(mTemp, 0, mVMatrix, 0, mRotationMatrix, 0);
@@ -99,17 +109,17 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		Matrix.invertM(tt, 0, mTemp, 0);
 		Matrix.transposeM(mNormalMat, 0, tt, 0);
 		
-		Matrix.scaleM(mSphereMVPMatrix, 0, 2.0f, 2.0f, 2.0f);	//set dimentions of balls
+		Matrix.scaleM(mSphereMVPMatrix, 0, 0.5f, 0.5f, 0.5f);	//set dimentions of balls
 		Matrix.translateM(mSphereMVPMatrix, 0, -3.0f, -4.0f, -2.0f); //1st ball
-		mSphere.draw(mSphereMVPMatrix, mNormalMat, mTemp, RED);
+		mSphere.draw(mSphereMVPMatrix, mNormalMat, mTemp, BasketballOrange);
 //		Matrix.translateM(mSphereMVPMatrix, 0, 5.0f, 4.0f, 0.0f); //2nd ball
 //		mSphere.draw(mSphereMVPMatrix, mNormalMat, mTemp, BLUE);
 //		Matrix.translateM(mSphereMVPMatrix, 0, -5.0f, 4.0f, 0.0f); //3rd ball
 //		mSphere.draw(mSphereMVPMatrix, mNormalMat, mTemp, PURPLE);
 		
 		//scale = 1.0f; 
-		Matrix.scaleM(mMVPMatrix, 0, 0.1f, 2.5f, 0.1f);	//set dimensions of table top
-		mCube.draw(mMVPMatrix, mNormalMat, GREEN);
+		Matrix.scaleM(mMVPMatrix, 0, 0.1f, 1.0f, 0.1f);	//set dimensions of pole
+		mPole.draw(mMVPMatrix, mNormalMat, METAL);
 		
 //		Matrix.scaleM(mEndMVPMatrix, 0, 2.0f, 0.05f, 0.2f);//set dimensions of End Bumper
 //		Matrix.translateM(mEndMVPMatrix, 0, 0.0f, 58.0f, 0.0f); //1st End Bumper
@@ -124,10 +134,12 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 //		Matrix.translateM(mSideMVPMatrix, 0, -38.0f, 0.0f, 0.0f); //2nd Side Bumper
 //		mSideBumper.draw(mSideMVPMatrix, mNormalMat, BROWN);
 //		
-//		
-//		Matrix.scaleM(mLegMVPMatrix, 0, 0.2f, 0.1f, 1.3f);	//set dimensions of legs
-//		Matrix.translateM(mLegMVPMatrix, 0, 9.0f, 28.0f, 1.0f); //1st leg
-//		mLeg.draw(mLegMVPMatrix, mNormalMat, BROWN);
+		
+		Matrix.scaleM(mBackboardMVPMatrix, 0, 1.5f, 0.6f, 0.1f);	//set dimensions of backboard
+		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, 5.0f, 0.0f); //backboard
+		mBackboard.draw(mBackboardMVPMatrix, mNormalMat, WHITE);
+		
+		
 //		Matrix.translateM(mLegMVPMatrix, 0, 0.0f, -56.0f, 0.0f); //2nd leg
 //		mLeg.draw(mLegMVPMatrix, mNormalMat, BROWN);
 //		Matrix.translateM(mLegMVPMatrix, 0, -18.f, 0.0f, 0.0f); //3rd leg
@@ -160,6 +172,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		
 		// Draw shape
 		//mTriangle.draw(mMVPMatrix);
+		//mSquare.draw(mLegMVPMatrix);
 	}
 
 	// Called if the geometry of the view changes
