@@ -242,8 +242,7 @@ public class Cube {
 		// get handle to shape's transformation matrix
 		mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
 		mNormalMatHandle = GLES20.glGetUniformLocation(mProgram, "uNormalMat");
-		
-		
+
 		float[] scale = new float [16]; 
 		Matrix.setIdentityM(scale, 0);
 		Matrix.scaleM(scale, 0, 1.0f, 2.0f, 1.0f);;

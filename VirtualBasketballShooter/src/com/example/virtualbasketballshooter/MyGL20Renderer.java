@@ -24,6 +24,9 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	
 	public volatile float mAngle; // use volatile because we modify it in other classes
 	public volatile float mAngleY; 
+	public volatile float X;
+	public volatile float Y;
+	public volatile float Z;
 	public volatile float scale=1; 
 	
 	private final float[] mVMatrix = new float[16];
@@ -38,6 +41,9 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	private final float[] mRotationXMatrix = new float[16];
 	private final float[] mRotationYMatrix = new float[16];
 	private final float[] mBackboardMVPMatrix = new float[16];
+	private final float[] mPoleMVPMatrix = new float[16];
+	
+	//colors
 	private final float[] GREEN = new float[]{(float)(49.0/255.0), (float)(153.0/255.0), (float)(94.0/255.0), 1.0f};
 	private final float[] BROWN = new float[]{(float)(69.0/255.0), (float)(42.0/255.0), (float)(14.0/255.0), 1.0f};
 	private final float[] RED = new float[]{(float)(253.0/255.0), (float)(3.0/255.0), (float)(3.0/255.0), 1.0f};
@@ -48,6 +54,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	private final float[] METAL = new float[]{(float)(219.0/255.0), (float)(228.0/255.0), (float)(235.0/255.0), 1.0f};
 	private final float[] WHITE = new float[]{(float)(255.0/255.0), (float)(255.0/255.0), (float)(255.0/255.0), 1.0f};
 	private final float[] Opaque = new float[]{(float)(255.0/255.0), (float)(255.0/255.0), (float)(255.0/255.0), 0.01f};
+	
 	private final float[] mTemp = new float [16]; 
 	
 	// Set up the view's OpenGL ES environment
@@ -80,6 +87,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		// Redraw background color
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT|GLES20.GL_DEPTH_BUFFER_BIT);
 		
+		
 		// Set the camera position (View matrix)
 		Matrix.setLookAtM(mVMatrix, 0, 0, 0, -5, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
 		
@@ -102,6 +110,8 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		Matrix.multiplyMM(mSquareMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
 		Matrix.multiplyMM(mSideMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
 		Matrix.multiplyMM(mBackboardMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+		Matrix.multiplyMM(mPoleMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+		
 		
 		// normal mat = transpose(inv(modelview)); 
 		Matrix.multiplyMM(mTemp, 0, mVMatrix, 0, mRotationMatrix, 0);
@@ -111,7 +121,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		Matrix.transposeM(mNormalMat, 0, tt, 0);
 		
 		Matrix.scaleM(mSphereMVPMatrix, 0, 0.5f, 0.5f, 0.5f);	//set dimentions of balls
-		Matrix.translateM(mSphereMVPMatrix, 0, -3.0f, -4.0f, -2.0f); //1st ball
+		Matrix.translateM(mSphereMVPMatrix, 0, 0.0f, -3.0f, -20.0f); //1st ball
 		mSphere.draw(mSphereMVPMatrix, mNormalMat, mTemp, BasketballOrange);
 //		Matrix.translateM(mSphereMVPMatrix, 0, 5.0f, 4.0f, 0.0f); //2nd ball
 //		mSphere.draw(mSphereMVPMatrix, mNormalMat, mTemp, BLUE);
@@ -119,8 +129,9 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 //		mSphere.draw(mSphereMVPMatrix, mNormalMat, mTemp, PURPLE);
 		
 		//scale = 1.0f; 
-		Matrix.scaleM(mMVPMatrix, 0, 0.1f, 1.0f, 0.1f);	//set dimensions of pole
-		mPole.draw(mMVPMatrix, mNormalMat, METAL);
+		Matrix.scaleM(mPoleMVPMatrix, 0, 0.1f, 1.0f, 0.1f);	//set dimensions of pole
+		Matrix.translateM(mPoleMVPMatrix, 0, 0.0f, 0.0f, 0.0f);
+		mPole.draw(mPoleMVPMatrix, mNormalMat, METAL);
 		
 		Matrix.scaleM(mBackboardMVPMatrix, 0, 1.5f, 0.6f, 0.1f);	//set dimensions of backboard
 		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, 5.0f, 0.0f); //backboard

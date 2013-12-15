@@ -1,6 +1,12 @@
 package com.example.virtualbasketballshooter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorListener;
+import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -10,6 +16,9 @@ public class MyGLSurfaceView extends GLSurfaceView {
 	
 	private float mPreviousX;
 	private float mPreviousY;
+	private float mLastX;
+	private float mLastY;
+	private float mLastZ;
 	private ScaleGestureDetector mScaleDetector;
 	private MyGL20Renderer mRenderer;
 	private float mScaleFactor = 1.f;
@@ -46,13 +55,15 @@ public class MyGLSurfaceView extends GLSurfaceView {
         }
     }
 	
-	public class SensorActivity extends Activity, implements SensorEventListener {
+	public class SensorActivity extends Activity implements SensorEventListener {
 	     private final SensorManager mSensorManager;
 	     private final Sensor mAccelerometer;
+	     private long lastUpdate;
 
 	     public SensorActivity() {
 	         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
 	         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+	         lastUpdate = System.currentTimeMillis();
 	     }
 
 	     protected void onResume() {
@@ -60,6 +71,11 @@ public class MyGLSurfaceView extends GLSurfaceView {
 	         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 	     }
 
+	     protected void onStop() {
+	    	 super.onStop();
+	         mSensorManager.unregisterListener(this);
+	     }
+	     
 	     protected void onPause() {
 	         super.onPause();
 	         mSensorManager.unregisterListener(this);
@@ -69,7 +85,30 @@ public class MyGLSurfaceView extends GLSurfaceView {
 	     }
 
 	     public void onSensorChanged(SensorEvent event) {
+	    	 //Movement
+	    	 mRenderer.X = event.values[0];
+	    	 mRenderer.Y = event.values[1];
+	    	 mRenderer.Z = event.values[2];	 
+	    	 
+	    	 float accelationSquareRoot = (mRenderer.X*mRenderer.X + mRenderer.Y*mRenderer.Y + mRenderer.Z*mRenderer.Z) / (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
+	    	 long actualTime = System.currentTimeMillis();
+	    	 if(accelationSquareRoot >= 2)
+	    	 {
+	    		 if(actualTime - lastUpdate < 200)
+	    		 {
+	    			 return;
+	    		 }
+	    		 lastUpdate = actualTime;
+	    		 
+	    	 }
+	    	 
 	     }
+
+//		@Override
+//		public void onSensorChanged(SensorEvent arg0) {
+//			// TODO Auto-generated method stub
+//			
+//		}
 	 }
 	
 	@Override
