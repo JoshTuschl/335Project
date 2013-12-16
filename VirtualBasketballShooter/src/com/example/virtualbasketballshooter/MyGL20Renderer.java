@@ -32,11 +32,13 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	public volatile float Vx;
 	public volatile float Vy;
 	public volatile float Vz;
+	public volatile float ballspeed;
 	public volatile float scale=1;
 	public float x=0f;
 	public float y=0f;
 	public float z=0f;
 	
+	//matrices
 	private final float[] mVMatrix = new float[16];
 	private final float[] mProjMatrix = new float[16];
 	private final float[] mNormalMat = new float[16]; 
@@ -50,6 +52,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	private final float[] mRotationYMatrix = new float[16];
 	private final float[] mBackboardMVPMatrix = new float[16];
 	private final float[] mPoleMVPMatrix = new float[16];
+	private final float[] mTemp = new float [16]; 
 	
 	//colors
 	private final float[] GREEN = new float[]{(float)(49.0/255.0), (float)(153.0/255.0), (float)(94.0/255.0), 1.0f};
@@ -62,8 +65,6 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	private final float[] METAL = new float[]{(float)(219.0/255.0), (float)(228.0/255.0), (float)(235.0/255.0), 1.0f};
 	private final float[] WHITE = new float[]{(float)(255.0/255.0), (float)(255.0/255.0), (float)(255.0/255.0), 1.0f};
 	private final float[] Opaque = new float[]{(float)(255.0/255.0), (float)(255.0/255.0), (float)(255.0/255.0), 0.01f};
-	
-	private final float[] mTemp = new float [16]; 
 	
 	// Set up the view's OpenGL ES environment
 	@Override
@@ -87,6 +88,9 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		mPole = new Cube();
 		
 		mSphere = new Sphere(1.0f, 20, 40); 
+		basketball.Vx = Vx;
+		basketball.Vy = Vy;
+		basketball.Vz = Vz;
 	}
 
 	// Called for each redraw of the view
@@ -132,22 +136,11 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		Matrix.translateM(mSphereMVPMatrix, 0, 0.0f, -3.0f, -20.0f); //1st ball
 		
 		//calculate Newtonian Position from Newtonian Velocity
-		x = Vx * dt;
-		y = Vy * dt;
-		z = Vz * dt;
-//		if(basketball.check_rim_collision(x, y, z))
-//		{
-//			//basketball.handle_rim_collision();
-//		}
-//		if(basketball.check_backboard_collision(x, y, z))
-//		{
-//			//basketball.handle_backboard_collision();
-//		}
-//		if(basketball.check_floor_collision(y))
-//		{
-//			//basketball.handle_floor_collision();
-//		}
+//		x = Vx * dt;
+//		y = Vy * dt;
+//		z = Vz * dt;
 		
+		basketball.updateBall(ballspeed);
 		
 		mSphere.draw(mSphereMVPMatrix, mNormalMat, mTemp, BasketballOrange);
 //		Matrix.translateM(mSphereMVPMatrix, 0, 5.0f, 4.0f, 0.0f); //2nd ball

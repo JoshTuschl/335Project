@@ -94,6 +94,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 	    	 
 	    	 
 	    	 float accelationSquareRoot = (mRenderer.ax*mRenderer.ax + mRenderer.ay*mRenderer.ay + mRenderer.az*mRenderer.az) / (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
+	    	 mRenderer.ballspeed = accelationSquareRoot;
 	    	 long actualTime = System.currentTimeMillis();
 	    	 if(accelationSquareRoot >= 2)
 	    	 {
