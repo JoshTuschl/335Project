@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
+import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 
@@ -25,8 +26,8 @@ public class MyGLSurfaceView extends GLSurfaceView {
 	
 	private final float TOUCH_SCALE_FACTOR = 180.0F / 360;	
 	
-	public MyGLSurfaceView(Context context) {
-		super(context);
+	public MyGLSurfaceView(Context context, AttributeSet attrs) {
+		super(context, attrs);
 		
 		mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
 		

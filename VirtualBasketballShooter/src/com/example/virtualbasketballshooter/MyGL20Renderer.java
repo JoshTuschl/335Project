@@ -135,18 +135,18 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		x = Vx * dt;
 		y = Vy * dt;
 		z = Vz * dt;
-		if(basketball.check_rim_collision(x, y, z))
-		{
-			//basketball.handle_rim_collision();
-		}
-		if(basketball.check_backboard_collision(x, y, z))
-		{
-			//basketball.handle_backboard_collision();
-		}
-		if(basketball.check_floor_collision(y))
-		{
-			//basketball.handle_floor_collision();
-		}
+//		if(basketball.check_rim_collision(x, y, z))
+//		{
+//			//basketball.handle_rim_collision();
+//		}
+//		if(basketball.check_backboard_collision(x, y, z))
+//		{
+//			//basketball.handle_backboard_collision();
+//		}
+//		if(basketball.check_floor_collision(y))
+//		{
+//			//basketball.handle_floor_collision();
+//		}
 		
 		
 		mSphere.draw(mSphereMVPMatrix, mNormalMat, mTemp, BasketballOrange);
