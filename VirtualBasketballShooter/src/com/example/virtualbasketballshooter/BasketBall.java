@@ -2,16 +2,17 @@ package com.example.virtualbasketballshooter;
 
 public class BasketBall {
 
-	private float RADIUS = (float)0.5;
-	private float BACKBOARD_DISTANCE = 20;
-	private float backboard_top = (float)5.3;
-	private float backboard_bottom = (float)4.7;
-	private float backboard_side = (float)0.75;
+	private float RADIUS = 0.5f;
+	private float BACKBOARD_DISTANCE = 20f;
+	private float backboard_top = 5.3f;
+	private float backboard_bottom = 4.7f;
+	private float backboard_side = 0.75f;
+	private float FLOOR = -0.5f;
 	
 	//rim collision detection
 	public boolean check_rim_collision(float x, float y, float z)
 	{
-		
+		return false;
 	}
 	
 	public boolean check_backboard_collision(float x, float y, float z)
@@ -45,7 +46,14 @@ public class BasketBall {
 		}
 			
 			
-		
+		public boolean check_floor_collision(float y)
+		{
+			if(y < FLOOR + 0.01)
+			{
+				return true;
+			}
+			return false;
+		}
 	
 	
 	

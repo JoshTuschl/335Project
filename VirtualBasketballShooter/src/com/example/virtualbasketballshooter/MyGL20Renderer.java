@@ -21,13 +21,21 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	private Cube mEndBumper;
 	private Cube mSideBumper;
 	private Sphere mSphere; 
+	private BasketBall basketball;
 	
 	public volatile float mAngle; // use volatile because we modify it in other classes
 	public volatile float mAngleY; 
-	public volatile float X;
-	public volatile float Y;
-	public volatile float Z;
-	public volatile float scale=1; 
+	public volatile float ax;
+	public volatile float ay;
+	public volatile float az;
+	public volatile float dt;
+	public volatile float Vx;
+	public volatile float Vy;
+	public volatile float Vz;
+	public volatile float scale=1;
+	public float x=0f;
+	public float y=0f;
+	public float z=0f;
 	
 	private final float[] mVMatrix = new float[16];
 	private final float[] mProjMatrix = new float[16];
@@ -122,6 +130,25 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		
 		Matrix.scaleM(mSphereMVPMatrix, 0, 0.5f, 0.5f, 0.5f);	//set dimentions of balls
 		Matrix.translateM(mSphereMVPMatrix, 0, 0.0f, -3.0f, -20.0f); //1st ball
+		
+		//calculate Newtonian Position from Newtonian Velocity
+		x = Vx * dt;
+		y = Vy * dt;
+		z = Vz * dt;
+		if(basketball.check_rim_collision(x, y, z))
+		{
+			//basketball.handle_rim_collision();
+		}
+		if(basketball.check_backboard_collision(x, y, z))
+		{
+			//basketball.handle_backboard_collision();
+		}
+		if(basketball.check_floor_collision(y))
+		{
+			//basketball.handle_floor_collision();
+		}
+		
+		
 		mSphere.draw(mSphereMVPMatrix, mNormalMat, mTemp, BasketballOrange);
 //		Matrix.translateM(mSphereMVPMatrix, 0, 5.0f, 4.0f, 0.0f); //2nd ball
 //		mSphere.draw(mSphereMVPMatrix, mNormalMat, mTemp, BLUE);

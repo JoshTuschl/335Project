@@ -16,15 +16,14 @@ public class MyGLSurfaceView extends GLSurfaceView {
 	
 	private float mPreviousX;
 	private float mPreviousY;
-	private float mLastX;
-	private float mLastY;
-	private float mLastZ;
+	private float mLastX=0;
+	private float mLastY=0;
+	private float mLastZ=0;
 	private ScaleGestureDetector mScaleDetector;
 	private MyGL20Renderer mRenderer;
 	private float mScaleFactor = 1.f;
 	
-	private final float TOUCH_SCALE_FACTOR = 180.0F / 360;
-	
+	private final float TOUCH_SCALE_FACTOR = 180.0F / 360;	
 	
 	public MyGLSurfaceView(Context context) {
 		super(context);
@@ -59,6 +58,8 @@ public class MyGLSurfaceView extends GLSurfaceView {
 	     private final SensorManager mSensorManager;
 	     private final Sensor mAccelerometer;
 	     private long lastUpdate;
+	     static final float ns_to_s = 1.0f / 1000000000.0f;
+	     long last_timestamp = 0;
 
 	     public SensorActivity() {
 	         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -86,11 +87,12 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
 	     public void onSensorChanged(SensorEvent event) {
 	    	 //Movement
-	    	 mRenderer.X = event.values[0];
-	    	 mRenderer.Y = event.values[1];
-	    	 mRenderer.Z = event.values[2];	 
+	    	 mRenderer.ax = event.values[0];
+	    	 mRenderer.ay = event.values[1];
+	    	 mRenderer.az = event.values[2];	 
 	    	 
-	    	 float accelationSquareRoot = (mRenderer.X*mRenderer.X + mRenderer.Y*mRenderer.Y + mRenderer.Z*mRenderer.Z) / (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
+	    	 
+	    	 float accelationSquareRoot = (mRenderer.ax*mRenderer.ax + mRenderer.ay*mRenderer.ay + mRenderer.az*mRenderer.az) / (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
 	    	 long actualTime = System.currentTimeMillis();
 	    	 if(accelationSquareRoot >= 2)
 	    	 {
@@ -99,7 +101,24 @@ public class MyGLSurfaceView extends GLSurfaceView {
 	    			 return;
 	    		 }
 	    		 lastUpdate = actualTime;
-	    		 
+	    		 if(mLastX != 0)
+	    		 {		//integrate to get Newtonian velocity
+	    			 mRenderer.dt = (event.timestamp - last_timestamp) * ns_to_s;
+	    			 mRenderer.Vx = (mRenderer.ax + mLastX) / (2*mRenderer.dt);
+	    			 mRenderer.Vy = (mRenderer.ay + mLastY) / (2*mRenderer.dt);
+	    			 mRenderer.Vx = (mRenderer.az + mLastZ) / (2*mRenderer.dt);
+	    		 }
+	    		 else
+	    		 {
+	    			 mRenderer.dt = 1;
+	    			 mRenderer.Vx = 0f;
+	    			 mRenderer.Vy = 0f;
+	    			 mRenderer.Vz = 0f;
+	    		 }
+	    		 mLastX = mRenderer.ax;
+	    		 mLastY = mRenderer.ay;
+	    		 mLastZ = mRenderer.az;
+	    		 last_timestamp = event.timestamp;
 	    	 }
 	    	 
 	     }

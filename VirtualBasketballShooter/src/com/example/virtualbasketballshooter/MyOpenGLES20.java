@@ -19,7 +19,9 @@ public class MyOpenGLES20 extends Activity {
 		
 		// Create a GLSurfaceView instance and set it
 		// as the ContentView for this Activity
-		mGLView = new MyGLSurfaceView(this);
+		//mGLView = new MyGLSurfaceView(this);
+		mGLView = (MyGLSurfaceView)findViewById(R.id.glView);
+		
 		setContentView(mGLView);
 	}
 	
