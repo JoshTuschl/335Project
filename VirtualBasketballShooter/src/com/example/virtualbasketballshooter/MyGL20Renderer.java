@@ -8,6 +8,8 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.SystemClock;
 
+import static com.example.virtualbasketballshooter.Circle.MakeCircle2d;
+
 //a renderer that can draw and manipulate objects
 @SuppressLint("NewApi")
 public class MyGL20Renderer implements GLSurfaceView.Renderer {
@@ -22,7 +24,9 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	private Cube mSideBumper;
 	private Sphere mSphere; 
 	private BasketBall basketball;
-	
+    private Sphere mRim;
+    private Cube mFloor;
+
 	public volatile float mAngle; // use volatile because we modify it in other classes
 	public volatile float mAngleY; 
 	public volatile float ax;
@@ -47,12 +51,14 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	private final float[] mSquareMVPMatrix = new float[16];
 	private final float[] mSideMVPMatrix = new float[16];
 	private final float[] mSphereMVPMatrix = new float[16];
+    private final float[] mRimMVPMatrix = new float[16];
 	private final float[] mRotationMatrix = new float[16];
 	private final float[] mRotationXMatrix = new float[16];
 	private final float[] mRotationYMatrix = new float[16];
 	private final float[] mBackboardMVPMatrix = new float[16];
 	private final float[] mPoleMVPMatrix = new float[16];
-	private final float[] mTemp = new float [16]; 
+	private final float[] mTemp = new float [16];
+    private final float[] mFloorMVPMatrix = new float[16];
 	
 	//colors
 	private final float[] GREEN = new float[]{(float)(49.0/255.0), (float)(153.0/255.0), (float)(94.0/255.0), 1.0f};
@@ -86,12 +92,16 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		mLeg = new Cube();
 		mBackboard = new Cube();
 		mPole = new Cube();
+        mFloor = new Cube();
 		
-		mSphere = new Sphere(1.0f, 20, 40); 
+
 		basketball.Vx = Vx;
 		basketball.Vy = Vy;
 		basketball.Vz = Vz;
-	}
+
+		mSphere = new Sphere(1.0f, 40, 40);
+        mRim = new Sphere(.5f, 40,40);
+    }
 
 	// Called for each redraw of the view
 	@Override
@@ -101,7 +111,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		
 		
 		// Set the camera position (View matrix)
-		Matrix.setLookAtM(mVMatrix, 0, 0, 0, -5, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+		Matrix.setLookAtM(mVMatrix, 0, 0, 0, scale, 0f, 0f, 0f, 0f, 5.0f, 15.0f);
 		
 		// Calculate the projection and view transformation
 		// temp = Proj*View; 
@@ -112,17 +122,19 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		Matrix.multiplyMM(mRotationMatrix, 0,  mRotationXMatrix, 0, mRotationYMatrix, 0);
 		float[] mScaleMatrix = new float[16];
 		Matrix.setIdentityM(mScaleMatrix, 0);
-		Matrix.scaleM(mScaleMatrix,  0,  scale, scale,  scale);
+		Matrix.scaleM(mScaleMatrix,  0,  1.0f, 1.0f,  1.0f);
 		Matrix.multiplyMM(mRotationMatrix, 0, mScaleMatrix, 0, mRotationMatrix, 0);
 		
 		// MVP = Proj*View*Rot
 		Matrix.multiplyMM(mMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
 		Matrix.multiplyMM(mLegMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
 		Matrix.multiplyMM(mSphereMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+        Matrix.multiplyMM(mRimMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
 		Matrix.multiplyMM(mSquareMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
 		Matrix.multiplyMM(mSideMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
 		Matrix.multiplyMM(mBackboardMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
 		Matrix.multiplyMM(mPoleMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+        Matrix.multiplyMM(mFloorMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
 		
 		
 		// normal mat = transpose(inv(modelview)); 
@@ -134,7 +146,8 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		
 		Matrix.scaleM(mSphereMVPMatrix, 0, 0.5f, 0.5f, 0.5f);	//set dimentions of balls
 		Matrix.translateM(mSphereMVPMatrix, 0, 0.0f, -3.0f, -20.0f); //1st ball
-		
+
+
 		//calculate Newtonian Position from Newtonian Velocity
 //		x = Vx * dt;
 //		y = Vy * dt;
@@ -143,6 +156,14 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		basketball.updateBall(ballspeed);
 		
 		mSphere.draw(mSphereMVPMatrix, mNormalMat, mTemp, BasketballOrange);
+
+        Matrix.scaleM(mRimMVPMatrix, 0, 0.75f, .01f, 0.75f);	//set dimentions of balls
+        Matrix.translateM(mRimMVPMatrix, 0, 0.0f, 180.0f, -33.33f); //1st ball
+        mRim.draw(mRimMVPMatrix, mNormalMat ,mTemp, METAL);
+
+        //float[] verts= MakeCircle2d(1.0f, 100, 1.0f, -1.0f);
+        //gl.glDrawArrays(GL10.GL_LINES, 0, verts.length / 2);
+
 //		Matrix.translateM(mSphereMVPMatrix, 0, 5.0f, 4.0f, 0.0f); //2nd ball
 //		mSphere.draw(mSphereMVPMatrix, mNormalMat, mTemp, BLUE);
 //		Matrix.translateM(mSphereMVPMatrix, 0, -5.0f, 4.0f, 0.0f); //3rd ball
@@ -150,11 +171,15 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		
 		//scale = 1.0f; 
 		Matrix.scaleM(mPoleMVPMatrix, 0, 0.1f, 1.0f, 0.1f);	//set dimensions of pole
-		Matrix.translateM(mPoleMVPMatrix, 0, 0.0f, 0.0f, 0.0f);
+		Matrix.translateM(mPoleMVPMatrix, 0, 0.0f, 0.0f, -250f);
 		mPole.draw(mPoleMVPMatrix, mNormalMat, METAL);
+
+        Matrix.scaleM(mFloorMVPMatrix, 0, 12.0f, 0.01f, 25.0f);	//set dimensions of floor
+        Matrix.translateM(mFloorMVPMatrix, 0, 0f, -200.0f, 0.0f);
+        mFloor.draw(mFloorMVPMatrix, mNormalMat, BROWN);
 		
 		Matrix.scaleM(mBackboardMVPMatrix, 0, 1.5f, 0.6f, 0.1f);	//set dimensions of backboard
-		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, 5.0f, 0.0f); //backboard
+		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, 5.0f, -250f); //backboard
 		mBackboard.draw(mBackboardMVPMatrix, mNormalMat, Opaque);
 		
 //		Matrix.scaleM(mSquareMVPMatrix, 0, 1.0f, 0.1f, 0.0f);//set dimensions of backboard square
@@ -211,7 +236,9 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		
 	}
 
-	// Called if the geometry of the view changes
+
+
+    // Called if the geometry of the view changes
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
 		// set view port to the windows's width and height
@@ -223,9 +250,9 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		// in the onDrawFrame() method
 		
 		// if you have android API level 14+ you can use this
-		//Matrix.perspectiveM(mProjMatrix, 0, 60.0f, ratio, 1.0f, 7.0f);
+		//Matrix.perspectiveM(mProjMatrix, 0, 60.0f, ratio, 1.0f, 25.0f);
 		
-		Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 7);
+		Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 1.0f, 35f);
 	}
 	
 	// compile GLSL code prior to using it in OpenGL ES environment
