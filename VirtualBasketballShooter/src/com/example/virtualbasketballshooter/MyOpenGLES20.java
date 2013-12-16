@@ -21,14 +21,14 @@ public class MyOpenGLES20 extends Activity {
 		// as the ContentView for this Activity
 		//mGLView = new MyGLSurfaceView(this);
 		mGLView = (MyGLSurfaceView)findViewById(R.id.glView);
-		
-		setContentView(mGLView);
+		//setContentView(mGLView);
+		setContentView(R.layout.activity_main);
 	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		//getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
