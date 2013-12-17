@@ -23,7 +23,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	private Cube mEndBumper;
 	private Cube mSideBumper;
 	private Sphere mSphere; 
-	private BasketBall basketball;
+	public BasketBall basketball;
     private Sphere mRim;
     private Cube mFloor;
 
@@ -33,9 +33,9 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	public volatile float ay;
 	public volatile float az;
 	public volatile float dt;
-	public volatile float Vx;
-	public volatile float Vy;
-	public volatile float Vz;
+	public volatile float Vx = 0f;
+	public volatile float Vy = 0f;
+	public volatile float Vz = 0f;
 	public volatile float ballspeed;
 	public volatile float scale=1;
 	public float x=0f;
@@ -93,7 +93,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		mBackboard = new Cube();
 		mPole = new Cube();
         mFloor = new Cube();
-		
+		basketball = new BasketBall();
 
 		basketball.Vx = Vx;
 		basketball.Vy = Vy;
