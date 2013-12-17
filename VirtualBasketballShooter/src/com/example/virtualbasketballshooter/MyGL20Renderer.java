@@ -144,30 +144,22 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		Matrix.invertM(tt, 0, mTemp, 0);
 		Matrix.transposeM(mNormalMat, 0, tt, 0);
 		
-		Matrix.scaleM(mSphereMVPMatrix, 0, 0.5f, 0.5f, 0.5f);	//set dimentions of balls
-		Matrix.translateM(mSphereMVPMatrix, 0, 0.0f, -3.0f, -20.0f); //1st ball
-
-
-		//calculate Newtonian Position from Newtonian Velocity
-//		x = Vx * dt;
-//		y = Vy * dt;
-//		z = Vz * dt;
+		Matrix.scaleM(mBackboardMVPMatrix, 0, 1.5f, 0.6f, 0.1f);	//set dimensions of backboard
+		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, 5.0f, -250f); //backboard
+		mBackboard.draw(mBackboardMVPMatrix, mNormalMat, Opaque);
 		
 		basketball.updateBall(ballspeed);
-		
+		Matrix.scaleM(mSphereMVPMatrix, 0, 0.5f, 0.5f, 0.5f);	//set dimentions of basketball
+		Matrix.translateM(mSphereMVPMatrix, 0, basketball.x, basketball.y, basketball.z); //basketball
+		//Matrix.translateM(mSphereMVPMatrix, 0, 0.0f, -3.0f, -20.0f);
 		mSphere.draw(mSphereMVPMatrix, mNormalMat, mTemp, BasketballOrange);
 
-        Matrix.scaleM(mRimMVPMatrix, 0, 0.75f, .01f, 0.75f);	//set dimentions of balls
-        Matrix.translateM(mRimMVPMatrix, 0, 0.0f, 180.0f, -33.33f); //1st ball
+        Matrix.scaleM(mRimMVPMatrix, 0, 0.75f, .01f, 0.75f);	//set dimentions of rim
+        Matrix.translateM(mRimMVPMatrix, 0, 0.0f, 180.0f, -33.33f); //rim
         mRim.draw(mRimMVPMatrix, mNormalMat ,mTemp, METAL);
 
         //float[] verts= MakeCircle2d(1.0f, 100, 1.0f, -1.0f);
         //gl.glDrawArrays(GL10.GL_LINES, 0, verts.length / 2);
-
-//		Matrix.translateM(mSphereMVPMatrix, 0, 5.0f, 4.0f, 0.0f); //2nd ball
-//		mSphere.draw(mSphereMVPMatrix, mNormalMat, mTemp, BLUE);
-//		Matrix.translateM(mSphereMVPMatrix, 0, -5.0f, 4.0f, 0.0f); //3rd ball
-//		mSphere.draw(mSphereMVPMatrix, mNormalMat, mTemp, PURPLE);
 		
 		//scale = 1.0f; 
 		Matrix.scaleM(mPoleMVPMatrix, 0, 0.1f, 1.0f, 0.1f);	//set dimensions of pole
@@ -178,9 +170,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
         Matrix.translateM(mFloorMVPMatrix, 0, 0f, -200.0f, 0.0f);
         mFloor.draw(mFloorMVPMatrix, mNormalMat, BROWN);
 		
-		Matrix.scaleM(mBackboardMVPMatrix, 0, 1.5f, 0.6f, 0.1f);	//set dimensions of backboard
-		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, 5.0f, -250f); //backboard
-		mBackboard.draw(mBackboardMVPMatrix, mNormalMat, Opaque);
+		
 		
 //		Matrix.scaleM(mSquareMVPMatrix, 0, 1.0f, 0.1f, 0.0f);//set dimensions of backboard square
 //		Matrix.translateM(mSquareMVPMatrix, 0, 0.0f, 50.0f, 0.0f); //1st End Bumper
