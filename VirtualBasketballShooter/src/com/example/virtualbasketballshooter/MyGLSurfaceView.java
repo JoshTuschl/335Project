@@ -98,10 +98,10 @@ public class MyGLSurfaceView extends GLSurfaceView {
 	    	 long actualTime = System.currentTimeMillis();
 	    	 if(accelationSquareRoot >= 2)
 	    	 {
-	    		 if(actualTime - lastUpdate < 200)
-	    		 {
-	    			 return;
-	    		 }
+//	    		 if(actualTime - lastUpdate < 200)
+//	    		 {
+//	    			 return;
+//	    		 }
 	    		 lastUpdate = actualTime;
 	    		 if(mLastX != 0)
 	    		 {		//integrate to get Newtonian velocity

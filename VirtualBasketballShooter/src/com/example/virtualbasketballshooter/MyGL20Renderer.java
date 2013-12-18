@@ -41,6 +41,12 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	public float x=0f;
 	public float y=0f;
 	public float z=0f;
+	private float eyeX = 0f;
+	private float eyeY = 0f;
+	private float eyeZ = -5f;
+	private float lookX = 0f;
+	private float lookY = 0f;
+	private float lookZ = 0f;
 	
 	//matrices
 	private final float[] mVMatrix = new float[16];
@@ -110,8 +116,8 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT|GLES20.GL_DEPTH_BUFFER_BIT);
 		
 		
-		// Set the camera position (View matrix)
-		Matrix.setLookAtM(mVMatrix, 0, 0, 0, scale, 0f, 0f, 0f, 0f, 5.0f, 15.0f);
+		// Set the camera position (View matrix)  //(CameraViewMatrix, offset, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ)
+		Matrix.setLookAtM(mVMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, 0f, 1.0f, 0.0f);
 		
 		// Calculate the projection and view transformation
 		// temp = Proj*View; 
@@ -149,8 +155,9 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		mBackboard.draw(mBackboardMVPMatrix, mNormalMat, Opaque);
 		
 		basketball.updateBall(ballspeed);
-		Matrix.scaleM(mSphereMVPMatrix, 0, 0.5f, 0.5f, 0.5f);	//set dimentions of basketball
 		Matrix.translateM(mSphereMVPMatrix, 0, basketball.x, basketball.y, basketball.z); //basketball
+		Matrix.scaleM(mSphereMVPMatrix, 0, 0.5f, 0.5f, 0.5f);	//set dimentions of basketball
+		
 		//Matrix.translateM(mSphereMVPMatrix, 0, 0.0f, -3.0f, -20.0f);
 		mSphere.draw(mSphereMVPMatrix, mNormalMat, mTemp, BasketballOrange);
 
@@ -226,7 +233,48 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		
 	}
 
-
+	public void  aim_up(float factor)
+	{
+		lookY = lookY + factor;
+	}
+	
+	public void aim_left(float factor)
+	{
+		lookX = lookX - factor;
+	}
+	
+	public void aim_right(float factor)
+	{
+		lookX = lookX + factor;
+	}
+	
+	public void aim_down(float factor)
+	{
+		lookY = lookY - factor;
+	}
+	
+	public void move_left(float step)
+	{
+		eyeX = eyeX - step;
+	}
+	
+	public void move_right(float step)
+	{
+		eyeX = eyeX + step;
+	}
+	
+	public void reset()
+	{
+		eyeX = 0f;
+		eyeY = 0f;
+		eyeZ = -5f;
+		lookX = 0f;
+		lookY = 0f;
+		lookZ = 0f;
+		x = 0f;
+		y = -3f;
+		z = -20f;
+	}
 
     // Called if the geometry of the view changes
 	@Override

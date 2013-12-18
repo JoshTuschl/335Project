@@ -17,7 +17,7 @@
            	android:scaleType="centerInside"
            	android:background = "@null"
            	android:layout_marginBottom="14dp"
-           	android:layout_marginRight="33dp"
+           	android:layout_marginRight="30dp"
            	android:layout_alignRight="@+id/right_arrow"
            	android:layout_alignParentBottom="true"/>
 
