@@ -23,19 +23,31 @@
     </option>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="ERROR" />
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="basketball" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="WARN" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3624c9b5-3065-4cb7-8c75-8f398232cd36" name="Default" comment="" />
+    <list default="true" id="3624c9b5-3065-4cb7-8c75-8f398232cd36" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/VirtualBasketballShooter/gen/com/example/virtualbasketballshooter/Manifest.java" />
+      <change type="DELETED" beforePath="C:\Users\Josh\Documents\GitHub\335Project\VirtualBasketballShooter\bin\VirtualBasketballShooter.apk" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VirtualBasketballShooter/.classpath" afterPath="$PROJECT_DIR$/VirtualBasketballShooter/.classpath" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VirtualBasketballShooter/gen/com/example/virtualbasketballshooter/BuildConfig.java" afterPath="$PROJECT_DIR$/VirtualBasketballShooter/gen/com/example/virtualbasketballshooter/BuildConfig.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/Circle.java" afterPath="$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/Circle.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/MyGL20Renderer.java" afterPath="$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/MyGL20Renderer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VirtualBasketballShooter/gen/com/example/virtualbasketballshooter/R.java" afterPath="$PROJECT_DIR$/VirtualBasketballShooter/gen/com/example/virtualbasketballshooter/R.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="335Project.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/MyOpenGLES20.java" changelist="3624c9b5-3065-4cb7-8c75-8f398232cd36" time="1387221697810" ignored="false" />
     <file path="/fragment.java" changelist="3624c9b5-3065-4cb7-8c75-8f398232cd36" time="1387222157564" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="3624c9b5-3065-4cb7-8c75-8f398232cd36" time="1387221042622" ignored="false" />
     <file path="/a.dummy" changelist="3624c9b5-3065-4cb7-8c75-8f398232cd36" time="1387221310182" ignored="false" />
-    <file path="/MyGL20Renderer.java" changelist="3624c9b5-3065-4cb7-8c75-8f398232cd36" time="1387233355098" ignored="false" />
-    <file path="/Circle.java" changelist="3624c9b5-3065-4cb7-8c75-8f398232cd36" time="1387228026501" ignored="false" />
+    <file path="/MyGL20Renderer.java" changelist="3624c9b5-3065-4cb7-8c75-8f398232cd36" time="1387316075779" ignored="false" />
+    <file path="/Circle.java" changelist="3624c9b5-3065-4cb7-8c75-8f398232cd36" time="1387315961041" ignored="false" />
     <file path="/MyGLSurfaceView.java" changelist="3624c9b5-3065-4cb7-8c75-8f398232cd36" time="1387230615810" ignored="false" />
+    <file path="/Dummy.txt" changelist="3624c9b5-3065-4cb7-8c75-8f398232cd36" time="1387381679153" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,25 +123,25 @@
       <file leaf-file-name="MyOpenGLES20.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/MyOpenGLES20.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="52" selection-start="880" selection-end="880" vertical-scroll-proportion="0.0">
+            <state line="26" column="52" selection-start="908" selection-end="908" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MyGL20Renderer.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MyGL20Renderer.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/MyGL20Renderer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="91" selection-start="313" selection-end="313" vertical-scroll-proportion="0.27079645">
+            <state line="91" column="36" selection-start="3871" selection-end="3871" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Circle.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Circle.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/Circle.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="87" selection-start="327" selection-end="327" vertical-scroll-proportion="0.0">
+            <state line="27" column="62" selection-start="599" selection-end="599" vertical-scroll-proportion="0.029310346">
               <folding />
             </state>
           </provider>
@@ -138,7 +150,7 @@
       <file leaf-file-name="MyGLSurfaceView.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/MyGLSurfaceView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="163" column="37" selection-start="5106" selection-end="5106" vertical-scroll-proportion="0.0">
+            <state line="163" column="37" selection-start="5114" selection-end="5114" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -165,7 +177,7 @@
       <file leaf-file-name="Sphere.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/Sphere.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="272" column="112" selection-start="10775" selection-end="10775" vertical-scroll-proportion="0.0">
+            <state line="78" column="4" selection-start="2936" selection-end="2961" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -178,6 +190,17 @@
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
   </component>
+  <component name="Git.Settings">
+    <option name="UPDATE_TYPE" value="REBASE" />
+    <option name="SYNC_SETTING" value="DONT" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitLogSettings">
+    <option name="myStructureFilterPaths" />
+    <option name="myDateState">
+      <MyDateState />
+    </option>
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
@@ -186,11 +209,14 @@
         <option value="$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/MyOpenGLES20.java" />
         <option value="$PROJECT_DIR$/VirtualBasketballShooter/bin/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/Sphere.java" />
-        <option value="$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/Circle.java" />
         <option value="$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/MyGLSurfaceView.java" />
         <option value="$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/MyGL20Renderer.java" />
+        <option value="$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/Circle.java" />
       </list>
     </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState />
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="54" />
@@ -198,7 +224,7 @@
     <option name="width" value="1320" />
     <option name="height" value="784" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -226,7 +252,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -255,39 +281,22 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="virtualbasketballshooter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="335Project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VirtualBasketballShooter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="bin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="recentsLimit" value="5" />
-    <property name="options.lastSelected" value="vcs.Git" />
+    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="MemberChooser.sorted" value="false" />
+    <property name="last_opened_file_path" value="C:/cygwin/bin/git.exe" />
     <property name="AndroidLayoutSelectedEditor" value="text-editor" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
@@ -295,8 +304,8 @@
     <property name="restartRequiresConfirmation" value="true" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RunManager" selected="Android Application.MyOpenGLES20">
     <configuration default="false" name="MyOpenGLES20" type="AndroidRunConfigurationType" factoryName="Android Application" temporary="true">
@@ -349,19 +358,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -388,6 +384,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -483,28 +492,28 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1320" height="784" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3264" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298887" sideWeight="0.6704" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298887" sideWeight="0.6704" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32695374" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3264" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298887" sideWeight="0.6736" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24960254" sideWeight="0.672" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32695374" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24960254" sideWeight="0.67145133" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3264" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32961783" sideWeight="0.672" order="3" side_tool="false" content_ui="tabs" />
@@ -658,30 +667,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/Sphere.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="272" column="112" selection-start="10775" selection-end="10775" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/MyOpenGLES20.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="52" selection-start="880" selection-end="880" vertical-scroll-proportion="0.0">
+        <state line="26" column="52" selection-start="908" selection-end="908" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/MyGLSurfaceView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="163" column="37" selection-start="5106" selection-end="5106" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/Circle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="87" selection-start="327" selection-end="327" vertical-scroll-proportion="0.0">
+        <state line="163" column="37" selection-start="5114" selection-end="5114" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -695,7 +690,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/MyGL20Renderer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="91" selection-start="313" selection-end="313" vertical-scroll-proportion="0.27079645">
+        <state line="91" column="36" selection-start="3871" selection-end="3871" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/Sphere.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="78" column="4" selection-start="2936" selection-end="2961" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VirtualBasketballShooter/src/com/example/virtualbasketballshooter/Circle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="62" selection-start="599" selection-end="599" vertical-scroll-proportion="0.029310346">
           <folding />
         </state>
       </provider>

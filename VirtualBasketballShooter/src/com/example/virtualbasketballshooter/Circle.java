@@ -1,5 +1,7 @@
 package com.example.virtualbasketballshooter;
 
+import android.opengl.GLES20;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Josh
@@ -11,32 +13,47 @@ package com.example.virtualbasketballshooter;
  *
  */
 public class Circle {
-    public static float[] MakeCircle2d(float rad,int points,float x,float y)//x,y  ofsets
+
+    private int mProgram;
+    private int vertexCount = 0;
+
+
+    public Circle()
     {
-        float[] verts=new float[points*2+2];
-        boolean first=true;
-        float fx=0;
-        float fy=0;
-        int c=0;
-        for (int i = 0; i < points; i++)
-        {
-            float fi = (float) (2*3.14*i/points);
-            float xa = (float) (rad*Math.sin(fi + 3.14)+x);
-            float ya = (float) (rad*Math.cos(fi + 3.14)+y);
-            if(first)
-            {
-                first=false;
-                fx=xa;
-                fy=ya;
-            }
-            verts[c]=xa;
-            verts[c+1]=ya;
-            c+=2;
+        int vertexCount = 30;
+        float radius = 3.0f;
+        float center_x = 5.0f;
+        float center_y = 5.0f;
+
+//outer vertices of the circle
+        int outerVertexCount = vertexCount-1;
+
+        for (int i = 0; i < outerVertexCount; ++i){
+            float percent = (i / (float) (outerVertexCount-1));
+            float rad = (float)(percent * 2*Math.PI);
+
+            //vertex position
+            float outer_x = (float)(center_x + radius * Math.cos(rad));
+            float outer_y = (float)(center_y + radius * Math.sin(rad));
+
         }
-        verts[c]=fx;
-        verts[c+1]=fy;
-        return verts;
     }
+
+    public void draw() {
+        mProgram = GLES20.glCreateProgram();
+
+        vertexCount = 30;
+
+        // Add program to OpenGL ES environment
+        GLES20.glUseProgram(mProgram);
+
+
+        // Draw the Circle
+        GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, 0, vertexCount);
+
+    }
+
+
 
 
 }

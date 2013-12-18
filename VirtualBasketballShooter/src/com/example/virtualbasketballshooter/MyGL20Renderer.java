@@ -8,7 +8,6 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.SystemClock;
 
-import static com.example.virtualbasketballshooter.Circle.MakeCircle2d;
 
 //a renderer that can draw and manipulate objects
 @SuppressLint("NewApi")
@@ -26,6 +25,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	public BasketBall basketball;
     private Sphere mRim;
     private Cube mFloor;
+    private Circle mRim2;
 
 	public volatile float mAngle; // use volatile because we modify it in other classes
 	public volatile float mAngleY; 
@@ -100,12 +100,13 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		mPole = new Cube();
         mFloor = new Cube();
 		basketball = new BasketBall();
+        mRim2 = new Circle();
 
 		basketball.Vx = Vx;
 		basketball.Vy = Vy;
 		basketball.Vz = Vz;
 
-		mSphere = new Sphere(1.0f, 40, 40);
+		mSphere = new Sphere(1.0f, 35, 35);
         mRim = new Sphere(.5f, 40,40);
     }
 
@@ -165,8 +166,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
         Matrix.translateM(mRimMVPMatrix, 0, 0.0f, 180.0f, -33.33f); //rim
         mRim.draw(mRimMVPMatrix, mNormalMat ,mTemp, METAL);
 
-        //float[] verts= MakeCircle2d(1.0f, 100, 1.0f, -1.0f);
-        //gl.glDrawArrays(GL10.GL_LINES, 0, verts.length / 2);
+        mRim2.draw();
 		
 		//scale = 1.0f; 
 		Matrix.scaleM(mPoleMVPMatrix, 0, 0.1f, 1.0f, 0.1f);	//set dimensions of pole
@@ -176,9 +176,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
         Matrix.scaleM(mFloorMVPMatrix, 0, 12.0f, 0.01f, 25.0f);	//set dimensions of floor
         Matrix.translateM(mFloorMVPMatrix, 0, 0f, -200.0f, 0.0f);
         mFloor.draw(mFloorMVPMatrix, mNormalMat, BROWN);
-		
-		
-		
+
 //		Matrix.scaleM(mSquareMVPMatrix, 0, 1.0f, 0.1f, 0.0f);//set dimensions of backboard square
 //		Matrix.translateM(mSquareMVPMatrix, 0, 0.0f, 50.0f, 0.0f); //1st End Bumper
 //		mSquare.draw(mSquareMVPMatrix);
