@@ -1,19 +1,21 @@
 package com.example.virtualbasketballshooter;
 
+import android.content.Context;
+import android.media.MediaPlayer;
 import android.util.Log;
 
 public class BasketBall {
 
 	private float RADIUS = 0.5f;
-	private float BACKBOARD_DISTANCE = 20f;
+	private float BACKBOARD_DISTANCE = 24f;
 	private float backboard_top = 4f;
 	private float backboard_bottom = -4f;
 	private float backboard_side = 2.25f;
 	private float rim_height = 1.8f;
-	private float rim_middle = 25f;
+	private float rim_middle = 23f;
 	private float rim_radius = 1.5f;
-	private float FLOOR = -0.5f;
-	private final float GRAVITY = -3.5f;
+	private float FLOOR = -1.5f;
+	private final float GRAVITY = -0.25f;
 	private float XMIN = -12f;
 	private float XMAX = 12f;
 	private float YMIN = -1.5f;
@@ -26,6 +28,11 @@ public class BasketBall {
 	public float x = 0f;
 	public float y = -0.5f;
 	public float z = 1.75f;
+    public float originalVy;
+    public float originalVz;
+    public boolean basket = false;
+    public boolean replay = false;
+    public boolean shotTaken = false;
 
     public float getVx() {
         return Vx;
@@ -79,79 +86,74 @@ public class BasketBall {
 	{
 		if (Vx > .1) {
             x += Vx;
+            Vx -= Vx * .1;
         }
-        if (Vy > .1) {
-            y += Vy + GRAVITY;
+        if (Math.abs(Vy) > .1 || y > 0) {
+            y += Vy;
         }
-        if (Vz > .1) {
+        if (Math.abs(Vz) > .1) {
             z += Vz;
+            if (Vz > 0) {
+                Vz -= Vz * .1;
+            }
+            else {
+                Vz += Vz * .1;
+            }
         }
 
-        if (Vy > 0)   {
-
+        if (Vy > -10)   {
             Vy += GRAVITY;
         }
 
         Log.i("Basketball VX", String.valueOf(Vx));
         Log.i("Basketball VY", String.valueOf(Vy));
         Log.i("Basketball VZ", String.valueOf(Vz));
-        
-        if(Math.abs(z) > 0.01)
+         if (basket == false) {
+            basket = check_basket();
+         }
+        check_rim_collision();
+
+        if(check_backboard_collision())
         {
-        	if(check_rim_collision())
-        	{
-        		//handle_rim_collision();
-        	}
-        	if(check_backboard_collision())
-        	{
-        		handle_backboard_collision();
-        	}
-//        	if(check_floor_collision())
-//        	{
-//        		handle_floor_collision();
-//        	}
-		
-        	check_bounds();
+            handle_backboard_collision();
         }
+       	if(check_floor_collision())
+       	{
+       		handle_floor_collision();
+       	}
 		
-//		if(Math.abs(Vx-0f) > 0.5f)
-//		{
-//			Vx = Vx * 0.45f;
-//		}
-//		else
-//		{
-//			if(Math.abs(y) < 0.8f)
-//			{
-//				Vx = 0.0f;
-//			}
-//		}
-		if(Math.abs(Vy-0f) > 0.05f || y > 0)
-        {
-			Vy = Vy >0 ? Vy + GRAVITY : (-Vy * .8f);
-		}
-		else
-		{
-
-				Vy = 0.0f;
-				y = RADIUS;
-
-		}
-		if(Math.abs(Vz-0f) > 0.05f)
-		{
-			Vz = Vz * 0.45f;
-		}
-		else
-		{
-		    Vz = 0;
-		}
+        check_bounds();
 	}
 	
 	
 	//rim collision detection
 	public boolean check_rim_collision()
-	{
+	{   if (y > (rim_height - 0.1) && y < (rim_height + 0.1) && Vy < 0 )   {
+            if (!(z < rim_middle + 1.0) && !(z > rim_middle - 1.0) )   {
+                Vz = -Vz;
+                Vy = -Vy;
+                return true;
+            }
+        }
 		return false;
 	}
+
+    public boolean check_basket() {
+        if (y > (rim_height - 0.1) && y < (rim_height + 0.1) && Vy < 0 )   {
+            if (z < rim_middle + 1.0 && z > rim_middle - 1.0 )    {
+                Log.i("basket", "basket!");
+
+                MyOpenGLES20.mediaPlayer1.start();
+                return true;
+            }
+
+        }
+        else if ( y < (rim_height - .2) && y > .1)    {
+                MyOpenGLES20.mediaPlayer2.start();
+                Log.i("basket", "miss!");
+        }
+        return false;
+    }
 	
 	public boolean check_backboard_collision()
 	{
@@ -197,10 +199,6 @@ public class BasketBall {
 		Vx = Vx * 0.9f;				//slow x by 10% for collision
 		Vy = -1*(Vy*0.8f);  //reverse y direction, but only at 80% of velocity for elastic collision with floor.
 		Vz = Vz * 0.9f;				//slow z by 10% for collision
-//		if(Vx < 0.000001)
-//		{
-//			Vx = 0;
-//		}
 	}
 	
 	public void check_bounds()
@@ -230,6 +228,14 @@ public class BasketBall {
 	         Vz = -1*(Vz*0.85f);
 	         z = ZMIN + RADIUS;
 	    }
+	}
+
+    	public void reset()
+	{
+
+        x = 0f;
+        y = -0.5f;
+        z = 1.75f;
 	}
 	
 }

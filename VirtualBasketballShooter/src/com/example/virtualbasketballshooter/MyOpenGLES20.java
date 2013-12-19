@@ -2,6 +2,7 @@ package com.example.virtualbasketballshooter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.PointF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -37,6 +38,8 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
     public static float lookX = 0f;
     public static float lookY = 0f;
     public static float lookZ = 0f;
+    public static MediaPlayer mediaPlayer1;
+    public static MediaPlayer mediaPlayer2;
 
 
     private SensorManager mSensorManager;
@@ -53,7 +56,8 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         context = this.getApplicationContext();
-
+        mediaPlayer1 = MediaPlayer.create(context, R.raw.applause);
+        mediaPlayer2 = MediaPlayer.create(context, R.raw.crowdboo);
         // Create a GLSurfaceView instance and set it
 		// as the ContentView for this Activity
 		//mGLView = new MyGLSurfaceView(this);
@@ -73,10 +77,8 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
 		aimUp.setOnClickListener(new View.OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-                lookY += FACTOR;
-                
-                MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.applause);
-                mediaPlayer.start(); // no need to call prepare(); create() does that for you
+                lookY += .4f;
+
 
 	        }
 	    });
@@ -84,35 +86,35 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
 		aimLeft.setOnClickListener(new View.OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-	        	lookX += 5;
+	        	lookX += 1f;
 	        }
 	    });
 		
 		aimRight.setOnClickListener(new View.OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-                lookX -= 5;
+                lookX -= 1f;
 	        }
 	    });
 		
 		aimDown.setOnClickListener(new View.OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-                lookY -= FACTOR;
+                lookY -= .4f;
 	        }
 	    });
 		
 		moveLeft.setOnClickListener(new View.OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-                eyeX += FACTOR;
+                eyeX += .1f;
 	        }
 	    });
 		
 		moveRight.setOnClickListener(new View.OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-                eyeX -= FACTOR;
+                eyeX -= .1f;
 	        }
 	    });
 
@@ -144,6 +146,11 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
         mSensorManager.unregisterListener(this);
     }
 
+    public void onReset() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
@@ -164,25 +171,19 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
             if ((actualTime - lastUpdate) > 5000 )
             {
                 lastUpdate = actualTime;
-                if (true)
-                {		//integrate to get Newtonian velocity
-                    dt = (event.timestamp - last_timestamp) * ns_to_s;
-                    bball.basketball.setVx(0); //velocityX/2); // + mLastX) / (2*dt));
-                    bball.basketball.setVy(velocityY/2);
-                    bball.basketball.setVz(velocityZ/2);
-                }
-                else
-                {
-                    bball.basketball.setVx(0f);
-                    bball.basketball.setVy(0f);
-                    bball.basketball.setVz(0f);
-                }
-                mLastX = velocityX;
-                mLastY = velocityY;
-                mLastZ = velocityZ;
-                Log.i("mLastX", String.valueOf(mLastX));
-                Log.i("mLastY", String.valueOf(mLastY));
-                Log.i("mLastZ", String.valueOf(mLastZ));
+                bball.basketball.basket = false;
+                bball.basketball.replay = false;
+                bball.basketball.shotTaken = true;
+                //integrate to get Newtonian velocity
+                dt = (event.timestamp - last_timestamp) * ns_to_s;
+                bball.basketball.setVx(0); //velocityX/2); // + mLastX) / (2*dt));
+                float velocity = velocityY + velocityZ;
+                bball.basketball.setVy(velocity/6);
+                bball.basketball.setVz(velocity/8);
+
+
+                bball.basketball.originalVy = velocity/6;
+                bball.basketball.originalVz = velocity/8;
 
 
                 last_timestamp = event.timestamp;

@@ -172,7 +172,14 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		mBackboard.draw(mBackboardMVPMatrix, mNormalMat, Opaque);
 		
 		basketball.updateBall();
-
+        if (Math.abs(basketball.getVz()) < .1 && basketball.replay == false && basketball.shotTaken == true )  {
+            basketball.replay = true;
+            SystemClock.sleep(2000);
+            basketball.reset();
+            basketball.setVy(basketball.originalVy);
+            basketball.setVz(basketball.originalVz);
+            basketball.shotTaken = false;
+        }
 		Matrix.scaleM(mSphereMVPMatrix, 0, 0.5f, 0.5f, 0.5f);	//set dimentions of basketball
         Matrix.translateM(mSphereMVPMatrix, 0, basketball.getX(), basketball.getY(), basketball.getZ()); //basketball
 		//Matrix.translateM(mSphereMVPMatrix, 0, 0.0f, -3.0f, 20.0f);
@@ -244,19 +251,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		//mTriangle.draw(mMVPMatrix);
 		
 	}
-	
-//	public void reset()
-//	{
-//		eyeX = 0f;
-//		eyeY = 0f;
-//		eyeZ = -5f;
-//		lookX = 0f;
-//		lookY = 0f;
-//		lookZ = 0f;
-//		x = 0f;
-//		y = -3f;
-//		z = -20f;
-//	}
+
 
     // Called if the geometry of the view changes
 	@Override

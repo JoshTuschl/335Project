@@ -10,12 +10,13 @@ import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.SurfaceHolder;
 
 // a view that can draw and manipulate objects using OpenGL ES 2.0
-public class MyGLSurfaceView extends GLSurfaceView {
+public class MyGLSurfaceView extends GLSurfaceView implements GestureDetector.OnGestureListener {
 
 	private float mPreviousX;
 	private float mPreviousY;
@@ -43,6 +44,39 @@ public class MyGLSurfaceView extends GLSurfaceView {
 		// Render the view only when there is a change in the drawing data
 		setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY); // comment out for auto-rotation
 	}
+
+    public boolean onTouchEvent(MotionEvent event) {return false;}
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        // TODO Auto-generated method stub
+
+        return true;
+    }
+
+    public boolean onDown(MotionEvent e) {return false;}
+
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+                           float velocityY) {return false;}
+
+    public void onLongPress(MotionEvent e) {
+        MyOpenGLES20.eyeX = 0f;
+        MyOpenGLES20.eyeY = 0f;
+        MyOpenGLES20.eyeZ = -1f;
+        MyOpenGLES20.lookX = 0f;
+        MyOpenGLES20.lookY = 0f;
+        MyOpenGLES20.lookZ = 0f;
+        mRenderer.basketball.reset();
+        Log.i("long press", "lp!");
+    }
+
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float a, float b) { return false;}
 
 //	private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
 //        @Override
