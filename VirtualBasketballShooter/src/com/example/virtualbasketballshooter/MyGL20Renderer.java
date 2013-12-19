@@ -170,7 +170,9 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		Matrix.scaleM(mBackboardMVPMatrix, 0, 4.5f, 1.6f, 0.1f);	//set dimensions of backboard
 		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, 5.0f, 250f); //backboard
 		mBackboard.draw(mBackboardMVPMatrix, mNormalMat, Opaque);
-		
+		if (basketball.replay == true)  {
+            SystemClock.sleep(MyOpenGLES20.speed/1000);
+        }
 		basketball.updateBall();
         if (Math.abs(basketball.getVz()) < .1 && basketball.replay == false && basketball.shotTaken == true )  {
             basketball.replay = true;

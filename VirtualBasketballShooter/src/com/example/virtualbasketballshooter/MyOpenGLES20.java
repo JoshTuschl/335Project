@@ -32,6 +32,7 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
     private float mLastZ=0;
 
     public static Context context;
+    public static int speed = 0;
     public static float eyeX = 0f;
     public static float eyeY = 0f;
     public static float eyeZ = -1f;
