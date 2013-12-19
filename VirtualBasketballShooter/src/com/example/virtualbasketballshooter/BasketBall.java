@@ -72,7 +72,7 @@ public class BasketBall {
         this.z = z;
     }
 
-    public void updateBall(float velocity)
+    public void updateBall()
 	{
 		x = x + Vx;
 		y = y + Vy;

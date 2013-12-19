@@ -22,11 +22,18 @@ import javax.microedition.khronos.opengles.GL10;
 // in frustration and sadness.
 public class MyOpenGLES20 extends Activity implements SensorEventListener {
 	
-	public final float FACTOR = 5f;
+	public final float FACTOR = 2f;
 	public MyGL20Renderer bball = new MyGL20Renderer();
     private float mLastX=0;
     private float mLastY=0;
     private float mLastZ=0;
+
+    public static float eyeX = 0f;
+    public static float eyeY = 0f;
+    public static float eyeZ = -1f;
+    public static float lookX = 0f;
+    public static float lookY = 0f;
+    public static float lookZ = 0f;
 
 
     private SensorManager mSensorManager;
@@ -62,42 +69,42 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
 		aimUp.setOnClickListener(new View.OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-	        	bball.aim_up(FACTOR);
+                lookY += FACTOR;
 	        }
 	    });
 		
 		aimLeft.setOnClickListener(new View.OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-	        	bball.lookX -= FACTOR;
+	        	lookX += 5;
 	        }
 	    });
 		
 		aimRight.setOnClickListener(new View.OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-	        	bball.aim_right(FACTOR);
+                lookX -= 5;
 	        }
 	    });
 		
 		aimDown.setOnClickListener(new View.OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-	        	bball.aim_down(FACTOR);
+                lookY -= FACTOR;
 	        }
 	    });
 		
 		moveLeft.setOnClickListener(new View.OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-	        	bball.move_left(FACTOR);
+                eyeX += FACTOR;
 	        }
 	    });
 		
 		moveRight.setOnClickListener(new View.OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-	        	bball.move_right(FACTOR);
+                eyeX -= FACTOR;
 	        }
 	    });
 

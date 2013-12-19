@@ -6,36 +6,40 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
+import android.opengl.GLUtils;
 import android.opengl.Matrix;
 import android.util.Log;
 
 // square shape to be drawn in the context of an OpenGL ES view
 public class Cube {
 
-	private final String vertexShaderCode =
-			"vec4 lightDir = vec4(1, 1, 0, 0); "
-			+ "uniform mat4 uMVPMatrix, uNormalMat;" +
-			"attribute vec4 vPosition;" +
-			"uniform vec4 vColor;" +
-			"attribute vec3 vNormal;" + 
-			"varying vec4 varyingColor; varying vec3 varyingNormal; " + 
-			"void main() {" +
-			"	varyingColor = vColor;" +
-			"	vec4 t = uNormalMat*vec4(vNormal, 0.0);" +
-			"   varyingNormal.xyz = t.xyz; "+ 
-			"    gl_Position =    uMVPMatrix  * vPosition ;" +
-			"}";
-	//
-	private final String fragmentShaderCode =
-			"precision mediump float;" +
-			"varying vec4 varyingColor; varying vec3 varyingNormal;" +
-			"void main() {" +
-			"	vec3 lightDir = vec3(0, 0, 1.0);  "+
-			"   vec3 Nn = normalize(varyingNormal); " +
-			"	gl_FragColor = varyingColor*vec4(1.0, 1.0, 1.0, 1.0) * max(dot(Nn, normalize(lightDir)), 0.0); " +
-			//"   gl_FragColor = varyingColor; " +
-			"}";
+    private final String vertexShaderCode =
+            "vec4 lightDir = vec4(1, 1, 0, 0); "
+                    + "uniform mat4 uMVPMatrix, uNormalMat;" +
+                    "attribute vec4 vPosition;" +
+                    "uniform vec4 vColor;" +
+                    "attribute vec3 vNormal;" +
+                    "varying vec4 varyingColor; varying vec3 varyingNormal; " +
+                    "void main() {" +
+                    "	varyingColor = vColor;" +
+                    "	vec4 t = uNormalMat*vec4(vNormal, 0.0);" +
+                    "   varyingNormal.xyz = t.xyz; "+
+                    "    gl_Position =    uMVPMatrix  * vPosition ;" +
+                    "}";
+    //
+    private final String fragmentShaderCode =
+            "precision mediump float;" +
+                    "varying vec4 varyingColor; varying vec3 varyingNormal;" +
+                    "void main() {" +
+                    "	vec3 lightDir = vec3(0, 0, 1.0);  "+
+                    "   vec3 Nn = normalize(varyingNormal); " +
+                    "	gl_FragColor = varyingColor*vec4(1.0, 1.0, 1.0, 1.0) * max(dot(Nn, normalize(lightDir)), 0.0); " +
+                    //"   gl_FragColor = varyingColor; " +
+                    "}";
 	
 	private FloatBuffer vertexBuffer;
 	private FloatBuffer colorBuffer; 
@@ -137,9 +141,91 @@ public class Cube {
                 }
                 return 0; 
 	}
-	
-	
-	public Cube() {
+
+    private int[] textures = new int[8];
+
+    public void loadGLTexture(Context context, int picture) {
+
+
+        // loading texture
+
+
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), picture);
+
+
+        // generate one texture pointer
+        GLES20.glGenTextures(8, textures, 0);
+
+        // ...and bind it to our array
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[0]);
+
+        // create nearest filtered texture
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+
+        // Use Android GLUtils to specify a two-dimensional texture image from our bitmap
+
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+        bitmap.recycle();
+
+        bitmap = BitmapFactory.decodeResource(context.getResources(), picture);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[1]);
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+        bitmap.recycle();
+
+
+        bitmap = BitmapFactory.decodeResource(context.getResources(), picture);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[2]);
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+        bitmap.recycle();
+
+        bitmap = BitmapFactory.decodeResource(context.getResources(),  picture);
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE2);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[3]);
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+        bitmap.recycle();
+
+
+        bitmap = BitmapFactory.decodeResource(context.getResources(), picture);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[4]);
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+        bitmap.recycle();
+
+        bitmap = BitmapFactory.decodeResource(context.getResources(),  picture);
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE2);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[5]);
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+        bitmap.recycle();
+
+        bitmap = BitmapFactory.decodeResource(context.getResources(), picture);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[6]);
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+        bitmap.recycle();
+
+        bitmap = BitmapFactory.decodeResource(context.getResources(), picture);
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE2);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[7]);
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+        bitmap.recycle();
+
+    }
+
+    public Cube() {
 		// initialize vertex byte buffer for shape coordinates
 		ByteBuffer bb = ByteBuffer.allocateDirect(
 				// (# of coordinate values * 4 bytes per float

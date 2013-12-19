@@ -3,6 +3,7 @@ package com.example.virtualbasketballshooter;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
@@ -34,12 +35,6 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	public float x=0f;
 	public float y=0f;
 	public float z=0f;
-	private float eyeX = 0f;
-	private float eyeY = 0f;
-	private float eyeZ = -5f;
-	public volatile float lookX = 0f;
-	private float lookY = 0f;
-	private float lookZ = 0f;
 	
 	//matrices
 	private final float[] mVMatrix = new float[16];
@@ -96,7 +91,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 
 
 		mSphere = new Sphere(1.0f, 35, 35);
-        mRim = new Sphere(.5f, 40,40);
+        mRim = new Sphere(0.5f, 40,40);
     }
 
 	// Called for each redraw of the view
@@ -105,7 +100,9 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		// Redraw background color
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT|GLES20.GL_DEPTH_BUFFER_BIT);
 		// Set the camera position (View matrix)  //(CameraViewMatrix, offset, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ)
-		Matrix.setLookAtM(mVMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, 0f, 1.0f, 0.0f);
+		Matrix.setLookAtM(mVMatrix, 0, MyOpenGLES20.eyeX, MyOpenGLES20.eyeY, MyOpenGLES20.eyeZ,
+                MyOpenGLES20.lookX, MyOpenGLES20.lookY, MyOpenGLES20.lookZ,
+                0f, 1.0f, 0.0f);
 		
 		// Calculate the projection and view transformation
 		// temp = Proj*View; 
@@ -138,24 +135,24 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		Matrix.invertM(tt, 0, mTemp, 0);
 		Matrix.transposeM(mNormalMat, 0, tt, 0);
 		
-		Matrix.scaleM(mBackboardMVPMatrix, 0, 1.5f, 0.6f, 0.1f);	//set dimensions of backboard
-		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, 5.0f, -250f); //backboard
+		Matrix.scaleM(mBackboardMVPMatrix, 0, 4.5f, 1.6f, 0.1f);	//set dimensions of backboard
+		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, 5.0f, 250f); //backboard
 		mBackboard.draw(mBackboardMVPMatrix, mNormalMat, Opaque);
 		
-		basketball.updateBall(ballspeed);
+		basketball.updateBall();
 
 		Matrix.scaleM(mSphereMVPMatrix, 0, 0.5f, 0.5f, 0.5f);	//set dimentions of basketball
         Matrix.translateM(mSphereMVPMatrix, 0, basketball.getX(), basketball.getY(), basketball.getZ()); //basketball
 		//Matrix.translateM(mSphereMVPMatrix, 0, 0.0f, -3.0f, 20.0f);
 		mSphere.draw(mSphereMVPMatrix, mNormalMat, mTemp, BasketballOrange);
 
-        Matrix.scaleM(mRimMVPMatrix, 0, 0.75f, .01f, 0.75f);	//set dimentions of rim
-        Matrix.translateM(mRimMVPMatrix, 0, 0.0f, 180.0f, -33.33f); //rim
+        Matrix.scaleM(mRimMVPMatrix, 0, 1.5f, .05f, 0.75f);	//set dimentions of rim
+        Matrix.translateM(mRimMVPMatrix, 0, 0.0f, 110.0f, 32.00f); //rim
         mRim.draw(mRimMVPMatrix, mNormalMat ,mTemp, METAL);
 		
 		//scale = 1.0f; 
-		Matrix.scaleM(mPoleMVPMatrix, 0, 0.1f, 1.0f, 0.1f);	//set dimensions of pole
-		Matrix.translateM(mPoleMVPMatrix, 0, 0.0f, 0.0f, -250f);
+		Matrix.scaleM(mPoleMVPMatrix, 0, 0.2f, 2.4f, 0.2f);	//set dimensions of pole
+		Matrix.translateM(mPoleMVPMatrix, 0, 0.0f, 0.0f, 125f);
 		mPole.draw(mPoleMVPMatrix, mNormalMat, METAL);
 
         Matrix.scaleM(mFloorMVPMatrix, 0, 12.0f, 0.01f, 25.0f);	//set dimensions of floor
@@ -215,49 +212,19 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		//mTriangle.draw(mMVPMatrix);
 		
 	}
-
-	public void  aim_up(float factor)
-	{
-		lookY = lookY + factor;
-	}
 	
-	public void aim_left(float factor)
-	{
-		lookX = lookX - factor;
-	}
-	
-	public void aim_right(float factor)
-	{
-		lookX = lookX + factor;
-	}
-	
-	public void aim_down(float factor)
-	{
-		lookY = lookY - factor;
-	}
-	
-	public void move_left(float step)
-	{
-		eyeX = eyeX - step;
-	}
-	
-	public void move_right(float step)
-	{
-		eyeX = eyeX + step;
-	}
-	
-	public void reset()
-	{
-		eyeX = 0f;
-		eyeY = 0f;
-		eyeZ = -5f;
-		lookX = 0f;
-		lookY = 0f;
-		lookZ = 0f;
-		x = 0f;
-		y = -3f;
-		z = -20f;
-	}
+//	public void reset()
+//	{
+//		eyeX = 0f;
+//		eyeY = 0f;
+//		eyeZ = -5f;
+//		lookX = 0f;
+//		lookY = 0f;
+//		lookZ = 0f;
+//		x = 0f;
+//		y = -3f;
+//		z = -20f;
+//	}
 
     // Called if the geometry of the view changes
 	@Override
@@ -273,7 +240,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		// if you have android API level 14+ you can use this
 		//Matrix.perspectiveM(mProjMatrix, 0, 60.0f, ratio, 1.0f, 25.0f);
 		
-		Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 1.0f, 35f);
+		Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 1.0f, 50f);
 	}
 	
 	// compile GLSL code prior to using it in OpenGL ES environment
