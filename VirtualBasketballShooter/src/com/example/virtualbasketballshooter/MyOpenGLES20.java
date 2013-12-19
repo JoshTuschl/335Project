@@ -7,6 +7,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
@@ -73,6 +74,10 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
 	        @Override
 	        public void onClick(View v) {
                 lookY += FACTOR;
+                
+                MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.applause);
+                mediaPlayer.start(); // no need to call prepare(); create() does that for you
+
 	        }
 	    });
 		
