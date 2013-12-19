@@ -170,8 +170,9 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		Matrix.scaleM(mBackboardMVPMatrix, 0, 4.5f, 1.6f, 0.1f);	//set dimensions of backboard
 		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, 5.0f, 250f); //backboard
 		mBackboard.draw(mBackboardMVPMatrix, mNormalMat, Opaque);
+
 		if (basketball.replay == true)  {
-            SystemClock.sleep(MyOpenGLES20.speed/1000);
+            SystemClock.sleep(MyOpenGLES20.speed);
         }
 		basketball.updateBall();
         if (Math.abs(basketball.getVz()) < .1 && basketball.replay == false && basketball.shotTaken == true )  {
@@ -182,6 +183,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
             basketball.setVz(basketball.originalVz);
             basketball.shotTaken = false;
         }
+
 		Matrix.scaleM(mSphereMVPMatrix, 0, 0.5f, 0.5f, 0.5f);	//set dimentions of basketball
         Matrix.translateM(mSphereMVPMatrix, 0, basketball.getX(), basketball.getY(), basketball.getZ()); //basketball
 		//Matrix.translateM(mSphereMVPMatrix, 0, 0.0f, -3.0f, 20.0f);
@@ -189,7 +191,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 
         Matrix.scaleM(mRimMVPMatrix, 0, 1.5f, .05f, 0.75f);	//set dimentions of rim
         Matrix.translateM(mRimMVPMatrix, 0, 0.0f, 110.0f, 32.00f); //rim
-        mRim.draw(mRimMVPMatrix, mNormalMat ,mTemp, METAL);
+        mRim.draw(mRimMVPMatrix, mNormalMat ,mTemp, BasketballOrange);
 		
 		//scale = 1.0f; 
 		Matrix.scaleM(mPoleMVPMatrix, 0, 0.2f, 2.4f, 0.2f);	//set dimensions of pole

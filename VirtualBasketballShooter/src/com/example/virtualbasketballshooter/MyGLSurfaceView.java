@@ -23,7 +23,7 @@ public class MyGLSurfaceView extends GLSurfaceView implements GestureDetector.On
 	private ScaleGestureDetector mScaleDetector;
 	private MyGL20Renderer mRenderer;
 	private float mScaleFactor = 1.0f;
-
+    private GestureDetector gd;
     private SensorEventListener mSensorListener;
 	
 	private final float TOUCH_SCALE_FACTOR = 180.0F / 360;
@@ -39,13 +39,16 @@ public class MyGLSurfaceView extends GLSurfaceView implements GestureDetector.On
 		// Set the Renderer for drawing on the GLSurfaceView
 		mRenderer = new MyGL20Renderer();
 		setRenderer(mRenderer);
-
+        gd = new GestureDetector(context, this);
 
 		// Render the view only when there is a change in the drawing data
 		setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY); // comment out for auto-rotation
 	}
 
-    public boolean onTouchEvent(MotionEvent event) {return false;}
+    public boolean onTouchEvent(MotionEvent event) {
+
+        return gd.onTouchEvent(event);
+    }
 
     @Override
     public void onShowPress(MotionEvent e) {

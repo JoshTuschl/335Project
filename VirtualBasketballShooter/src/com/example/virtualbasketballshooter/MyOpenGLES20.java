@@ -111,6 +111,7 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
 	        @Override
 	        public void onClick(View v) {
                 eyeX += .1f;
+                bball.basketball.setX(bball.basketball.getX() + .1f);
 	        }
 	    });
 		
@@ -118,6 +119,7 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
 	        @Override
 	        public void onClick(View v) {
                 eyeX -= .1f;
+                bball.basketball.setX(bball.basketball.getX() - .1f);
 	        }
 	    });
 		
@@ -126,9 +128,9 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
 	        public void onClick(View v) {
                 if(speed == 900)
                 {
-                	speed = 750;
+                	speed = 250;
                 }
-                else if(speed == 750)
+                else if(speed == 250)
                 {
                 	speed = 0;
                 }
@@ -140,9 +142,9 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
 	        public void onClick(View v) {
                 if(speed == 0)
                 {
-                	speed = 750;
+                	speed = 250;
                 }
-                else if (speed == 750)
+                else if (speed == 250)
                 {
                 	speed = 900;
                 }
@@ -177,11 +179,6 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
         mSensorManager.unregisterListener(this);
     }
 
-    public void onReset() {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-    }
-
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
@@ -199,7 +196,7 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
         long actualTime = System.currentTimeMillis();
         if(accelerationSquareRoot >= 1.5)
         {
-            if ((actualTime - lastUpdate) > 5000 )
+            if ((actualTime - lastUpdate) > 3000 )
             {
                 lastUpdate = actualTime;
                 bball.basketball.basket = false;
