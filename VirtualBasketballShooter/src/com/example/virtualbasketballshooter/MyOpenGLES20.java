@@ -1,6 +1,7 @@
 package com.example.virtualbasketballshooter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.PointF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -21,13 +22,14 @@ import javax.microedition.khronos.opengles.GL10;
 // The two APIs are not interchangeable and trying to use them together only results 
 // in frustration and sadness.
 public class MyOpenGLES20 extends Activity implements SensorEventListener {
-	
+
 	public final float FACTOR = 2f;
 	public MyGL20Renderer bball = new MyGL20Renderer();
     private float mLastX=0;
     private float mLastY=0;
     private float mLastZ=0;
 
+    public static Context context;
     public static float eyeX = 0f;
     public static float eyeY = 0f;
     public static float eyeZ = -1f;
@@ -49,8 +51,9 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		// Create a GLSurfaceView instance and set it
+        context = this.getApplicationContext();
+
+        // Create a GLSurfaceView instance and set it
 		// as the ContentView for this Activity
 		//mGLView = new MyGLSurfaceView(this);
 		mGLView = (MyGLSurfaceView)findViewById(R.id.glView);
@@ -120,14 +123,6 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-
-    
-
-
-    protected void onCreate() {
-      
-
-    }
 
     protected void onResume() {
         super.onResume();

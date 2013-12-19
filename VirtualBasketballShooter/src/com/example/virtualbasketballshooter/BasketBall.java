@@ -14,12 +14,12 @@ public class BasketBall {
 	private float rim_radius = 1.5f;
 	private float FLOOR = -0.5f;
 	private final float GRAVITY = -3.5f;
-	private float XMIN = 12f;
-	private float XMAX = -12f;
+	private float XMIN = -12f;
+	private float XMAX = 12f;
 	private float YMIN = -1.5f;
 	private float YMAX = 25f;
-	private float ZMIN = 24f;
-	private float ZMAX = -24f;
+	private float ZMIN = -24f;
+	private float ZMAX = 24f;
 	public float Vx = 0f;
 	public float Vy = 0f;
 	public float Vz = 0f;
@@ -77,22 +77,32 @@ public class BasketBall {
 
     public void updateBall()
 	{
-		x = x + Vx;
-		y = y + Vy;
-		z = z + Vz;
+		if (Vx > .1) {
+            x += Vx;
+        }
+        if (Vy > .1) {
+            y += Vy + GRAVITY;
+        }
+        if (Vz > .1) {
+            z += Vz;
+        }
 
+        if (Vy > 0)   {
+
+            Vy += GRAVITY;
+        }
 
         Log.i("Basketball VX", String.valueOf(Vx));
         Log.i("Basketball VY", String.valueOf(Vy));
         Log.i("Basketball VZ", String.valueOf(Vz));
         
-        if(Math.abs(Vz) > 0.01)
+        if(Math.abs(z) > 0.01)
         {
-        	if(check_rim_collision(x, y, z))
+        	if(check_rim_collision())
         	{
         		//handle_rim_collision();
         	}
-        	if(check_backboard_collision(x, y, z))
+        	if(check_backboard_collision())
         	{
         		handle_backboard_collision();
         	}
@@ -112,42 +122,38 @@ public class BasketBall {
 //		{
 //			if(Math.abs(y) < 0.8f)
 //			{
-				Vx = 0.0f;
+//				Vx = 0.0f;
 //			}
 //		}
-		if(Math.abs(Vy-0f) > 0.05f)
-		{
-			Vy = y>0 ? Vy + GRAVITY : (-Vy * .8f);
+		if(Math.abs(Vy-0f) > 0.05f || y > 0)
+        {
+			Vy = Vy >0 ? Vy + GRAVITY : (-Vy * .8f);
 		}
-//		else
-//		{
-//			if(Math.abs(y) < 0.8)
-//			{
-//				Vy = 0.0f;
-//				y = RADIUS;
-//			}
-//		}
+		else
+		{
+
+				Vy = 0.0f;
+				y = RADIUS;
+
+		}
 		if(Math.abs(Vz-0f) > 0.05f)
 		{
 			Vz = Vz * 0.45f;
 		}
-//		else
-//		{
-//			if(Math.abs(y) < 0.8)
-//			{
-//				Vz = 0.0f;
-//			}
-//		}
+		else
+		{
+		    Vz = 0;
+		}
 	}
 	
 	
 	//rim collision detection
-	public boolean check_rim_collision(float x, float y, float z)
+	public boolean check_rim_collision()
 	{
 		return false;
 	}
 	
-	public boolean check_backboard_collision(float x, float y, float z)
+	public boolean check_backboard_collision()
 	{
 		//backboard collision detection
 		if ((z + RADIUS) > BACKBOARD_DISTANCE) 

@@ -34,26 +34,35 @@ public class Cube {
     private final String fragmentShaderCode =
             "precision mediump float;" +
                     "varying vec4 varyingColor; varying vec3 varyingNormal;" +
+                    "varying vec3 varyingTexCoord;" +
+                    " uniform sampler2D s_texture00;" +
+                    " uniform sampler2D s_texture01;" +
                     "void main() {" +
                     "	vec3 lightDir = vec3(0, 0, 1.0);  "+
                     "   vec3 Nn = normalize(varyingNormal); " +
-                    "	gl_FragColor = varyingColor*vec4(1.0, 1.0, 1.0, 1.0) * max(dot(Nn, normalize(lightDir)), 0.0); " +
-                    //"   gl_FragColor = varyingColor; " +
+                    "   vec4 texC = texture2D(s_texture00, varyingTexCoord.xy);" +
+                    "   vec4 texC2 = texture2D(s_texture01, varyingTexCoord.xy);" +
+                    "	gl_FragColor = vec4(1.0, 1.0, 0.0, 0.5) * max(dot(Nn, normalize(lightDir)), 0.0) * texC2; " +
+                    //"   if ((texC2.r + texC2.g +texC2.b) == 0) gl_FragColor.a = 0; else gl_FragColor.a = 1.0; " +
+                    //"gl_FragColor =  texC + texC2; " +
+                    "   gl_FragColor = varyingColor*vec4(1.0, 1.0, 1.0, 0.5); " +
                     "}";
-	
-	private FloatBuffer vertexBuffer;
-	private FloatBuffer colorBuffer; 
-	private FloatBuffer normalBuffer; 
-	private ShortBuffer drawListBuffer;
-	
-	private final int mProgram;
-	private int mPositionHandle;
-	private int mColorHandle, mNormalHandle;
-	private int mMVPMatrixHandle, mNormalMatHandle;
-	
-	// number of coordinates per vertex in this array
+
+    private FloatBuffer vertexBuffer;
+    private FloatBuffer colorBuffer;
+    private FloatBuffer normalBuffer;
+    private FloatBuffer texCBuffer;
+    private ShortBuffer drawListBuffer;
+
+    private final int mProgram;
+    private int mPositionHandle;
+    private int mColorHandle, mNormalHandle, mTexCHandle;
+    private int mMVPMatrixHandle, mNormalMatHandle;
+    private int mTexUnitHandle, mTexUnitHandle1;
+
+    // number of coordinates per vertex in this array
 	static final int COORDS_PER_VERTEX = 3;
-	
+
 	// vertex coords array for glDrawArrays() =====================================
 	// A cube has 6 sides and each side has 2 triangles, therefore, a cube consists
 	// of 36 vertices (6 sides * 2 tris * 3 vertices = 36 vertices). And, each
@@ -115,18 +124,18 @@ public class Cube {
 	                        0, 0, 1,   0, 0, 0,   0, 1, 0,      // v4-v7-v6 (back)
 	                        0, 1, 0,   0, 1, 1,   0, 0, 1 };    // v6-v5-v4
 
-	
-	
+
+
 	private short drawOrder[] = { 0, 1, 2, 0, 2, 3 };	// order to draw vertices
-	
+
 	private final int vertexCount = vertices.length / COORDS_PER_VERTEX;
 	private final int vertexStride = COORDS_PER_VERTEX * 4;	// bytes per vertex
-	
+
 	// Set color with red, green, blue and alpha (opacity) values
 	float color[] = { 0.36328125f, 0.23046875f, 0.77734375f, 0.5f };
-	
+
 	public static int checkShaderError(int shader) {
-		
+
 
 		final int[] compileStatus = new int[1];
 
@@ -136,16 +145,15 @@ public class Cube {
 
                         Log.e("GLES Error:", "Error compiling shader: " + GLES20.glGetShaderInfoLog(shader));
                         GLES20.glDeleteShader(shader);
-                        return 1; 
+                        return 1;
 
                 }
-                return 0; 
+                return 0;
 	}
 
     private int[] textures = new int[8];
 
     public void loadGLTexture(Context context, int picture) {
-
 
         // loading texture
 
@@ -232,37 +240,37 @@ public class Cube {
 				vertices.length * 4);
 		// use the device hardware's native byte order
 		bb.order(ByteOrder.nativeOrder());
-		
+
 		// create a floating point buffer from the ByteBuffer
 		vertexBuffer = bb.asFloatBuffer();
 		// add the coordinates to the FloatBuffer
 		vertexBuffer.put(vertices);
 		// set the buffer to read the first coordinate
 		vertexBuffer.position(0);
-		
-		
+
+
 		ByteBuffer bb2 = ByteBuffer.allocateDirect(
 				// (# of color values * 4 bytes per float
 				colors.length * 4);
 		bb2.order(ByteOrder.nativeOrder());
-		
+
 		// create a floating point buffer from the ByteBuffer
 		colorBuffer = bb2.asFloatBuffer();
 		// add the coordinates to the FloatBuffer
 		colorBuffer.put(colors);
 		// set the buffer to read the first coordinate
 		colorBuffer.position(0);
-		
-		
-		// normal buffer; 
+
+
+		// normal buffer;
 		ByteBuffer bb3 = ByteBuffer.allocateDirect(
 				normals.length * 4);
 		bb3.order(ByteOrder.nativeOrder());
-		
+
 		normalBuffer = bb3.asFloatBuffer();
 		normalBuffer.put(normals);
 		normalBuffer.position(0);
-		
+
 		// initialize byte buffer for the draw list
 		ByteBuffer dlb = ByteBuffer.allocateDirect(
 				// (# of coordinate values * 2 bytes per short
@@ -271,77 +279,77 @@ public class Cube {
 		drawListBuffer = dlb.asShortBuffer();
 		drawListBuffer.put(drawOrder);
 		drawListBuffer.position(0);
-		
+
 		int vertexShader = MyGL20Renderer.loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
-		checkShaderError(vertexShader); 
-		
+		checkShaderError(vertexShader);
+
 		int fragmentShader = MyGL20Renderer.loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
-		checkShaderError(fragmentShader); 
+		checkShaderError(fragmentShader);
 		mProgram = GLES20.glCreateProgram();				// create empty OpenGL ES program
 		GLES20.glAttachShader(mProgram,  vertexShader);		// add the vertex shader to program
 		GLES20.glAttachShader(mProgram, fragmentShader);	// add the fragment shader to program
 		GLES20.glLinkProgram(mProgram);						// creates OpenGL ES program executables
 	}
-	
+
 	public void draw(float[] mvpMatrix, float[] normalMat, float[] mColor) {	// pass in the calculated transformation matrix, and the normal transform mat;
 		// Add program to OpenGL ES environment
 		GLES20.glUseProgram(mProgram);
-		
+
 		//GLES20.glPolygonMode(GLES20.GL_FRONT,GLES20.GL_LINE);
 
 		// get handle to vertex shader's vPosition member
 		mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
-		
+
 		// Enable a handle to the triangle vertices
 		GLES20.glEnableVertexAttribArray(mPositionHandle);
-		
+
 		// Prepare the triangle coordinate data
 		GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX,
 									GLES20.GL_FLOAT, false,
 									vertexStride, vertexBuffer);
-		
+
 		// get handle to fragment shader's vColor member
 		//mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
 		// Set color for drawing the triangle
 		//GLES20.glUniform4fv(mColorHandle, 1, color, 0);
-		
-		
+
+
 		mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
-		//mColorHandle = GLES20.glGetAttribLocation(mProgram, "vColor");	
+		//mColorHandle = GLES20.glGetAttribLocation(mProgram, "vColor");
 		GLES20.glUniform4fv(mColorHandle, 1, mColor, 0);
 		//GLES20.glEnableVertexAttribArray(mColorHandle);
 		// Prepare the color data
 		//GLES20.glVertexAttribPointer(mColorHandle, COORDS_PER_VERTEX,
 		//											GLES20.GL_FLOAT, false,
 		//											vertexStride, colorBuffer);
-				
+
 		// now deal with normals
-		mNormalHandle = GLES20.glGetAttribLocation(mProgram, "vNormal");	
+		mNormalHandle = GLES20.glGetAttribLocation(mProgram, "vNormal");
 		GLES20.glEnableVertexAttribArray(mNormalHandle);
 		// Prepare the normal data
 		GLES20.glVertexAttribPointer(mNormalHandle, COORDS_PER_VERTEX,
 													GLES20.GL_FLOAT, false,
-													vertexStride, normalBuffer);		
-		
-				
-		
+													vertexStride, normalBuffer);
+
+
+
 		// get handle to shape's transformation matrix
 		mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
 		mNormalMatHandle = GLES20.glGetUniformLocation(mProgram, "uNormalMat");
 
-		float[] scale = new float [16]; 
+		float[] scale = new float [16];
 		Matrix.setIdentityM(scale, 0);
 		Matrix.scaleM(scale, 0, 1.0f, 2.0f, 1.0f);;
-	
+
 		//mvp = Proj*view*model*scale
-		float[] temp = new float[16]; 
-		
+		float[] temp = new float[16];
+
 		Matrix.multiplyMM(temp, 0, mvpMatrix, 0, scale, 0);
 		// Apply the projection and view transformation
 		//GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, temp, 0);
 		GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, temp, 0);
 		GLES20.glUniformMatrix4fv(mNormalMatHandle, 1, false, normalMat, 0);
-		
+
 		// Draw the triangle
 		GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
 		//GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);

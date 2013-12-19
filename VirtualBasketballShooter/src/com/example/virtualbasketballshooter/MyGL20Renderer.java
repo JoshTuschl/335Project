@@ -27,6 +27,10 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	public static BasketBall basketball;
     private Sphere mRim;
     private Cube mFloor;
+    private TextureCube mBackdrop;
+    private TextureCube mRightSide;
+    private TextureCube mLeftSide;
+    private Context appContext;
 
 	public volatile float mAngle; // use volatile because we modify it in other classes
 	public volatile float mAngleY;
@@ -51,8 +55,11 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	private final float[] mRotationYMatrix = new float[16];
 	private final float[] mBackboardMVPMatrix = new float[16];
 	private final float[] mPoleMVPMatrix = new float[16];
+    private final float[] mBackdropMVPMatrix = new float[16];
 	private final float[] mTemp = new float [16];
     private final float[] mFloorMVPMatrix = new float[16];
+    private final float[] mRightSideMVPMatrix = new float[16];
+    private final float[] mLeftSideMVPMatrix = new float[16];
 	
 	//colors
 	private final float[] GREEN = new float[]{(float)(49.0/255.0), (float)(153.0/255.0), (float)(94.0/255.0), 1.0f};
@@ -65,7 +72,11 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	private final float[] METAL = new float[]{(float)(219.0/255.0), (float)(228.0/255.0), (float)(235.0/255.0), 1.0f};
 	private final float[] WHITE = new float[]{(float)(255.0/255.0), (float)(255.0/255.0), (float)(255.0/255.0), 1.0f};
 	private final float[] Opaque = new float[]{(float)(255.0/255.0), (float)(255.0/255.0), (float)(255.0/255.0), 0.01f};
-	
+
+    public MyGL20Renderer() {
+        appContext = MyOpenGLES20.context;
+    }
+
 	// Set up the view's OpenGL ES environment
 	@Override
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
@@ -85,9 +96,16 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		mSideBumper = new Cube();
 		mLeg = new Cube();
 		mBackboard = new Cube();
+        mBackboard.loadGLTexture(appContext, R.drawable.uk1);
 		mPole = new Cube();
         mFloor = new Cube();
 		basketball = new BasketBall();
+        mRightSide = new TextureCube();
+        mRightSide.loadGLTexture(appContext, R.drawable.uk1);
+        mLeftSide = new TextureCube();
+        mLeftSide.loadGLTexture(appContext, R.drawable.uk1);
+        mBackdrop = new TextureCube();
+        mBackdrop.loadGLTexture(appContext, R.drawable.uk2);
 
 
 		mSphere = new Sphere(1.0f, 35, 35);
@@ -126,7 +144,9 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		Matrix.multiplyMM(mBackboardMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
 		Matrix.multiplyMM(mPoleMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
         Matrix.multiplyMM(mFloorMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
-		
+        Matrix.multiplyMM(mBackdropMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+        Matrix.multiplyMM(mRightSideMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+        Matrix.multiplyMM(mLeftSideMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
 		
 		// normal mat = transpose(inv(modelview)); 
 		Matrix.multiplyMM(mTemp, 0, mVMatrix, 0, mRotationMatrix, 0);
@@ -134,6 +154,18 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		float [] tt = new float[16]; 
 		Matrix.invertM(tt, 0, mTemp, 0);
 		Matrix.transposeM(mNormalMat, 0, tt, 0);
+
+        Matrix.scaleM(mBackdropMVPMatrix, 0, -15.0f, 13.8f, 15.0f);	//set dimensions of backboard
+        Matrix.translateM(mBackdropMVPMatrix, 0, 0.0f, 0.8f, 3.0f); //backboard
+        mBackdrop.draw(mBackdropMVPMatrix, mNormalMat);
+
+        Matrix.scaleM(mRightSideMVPMatrix, 0, -5.0f, -18.0f, 15.0f);	//set dimensions of backboard
+        Matrix.translateM(mRightSideMVPMatrix, 0, 5.0f, -0.8f, 3.0f); //backboard
+        mRightSide.draw(mRightSideMVPMatrix, mNormalMat);
+
+        Matrix.scaleM(mLeftSideMVPMatrix, 0, 5.0f, -18.0f, 15.0f);	//set dimensions of backboard
+        Matrix.translateM(mLeftSideMVPMatrix, 0, 5.0f, -0.8f, 3.0f); //backboard
+        mLeftSide.draw(mLeftSideMVPMatrix, mNormalMat);
 		
 		Matrix.scaleM(mBackboardMVPMatrix, 0, 4.5f, 1.6f, 0.1f);	//set dimensions of backboard
 		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, 5.0f, 250f); //backboard
