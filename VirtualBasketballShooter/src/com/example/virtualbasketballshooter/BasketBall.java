@@ -6,23 +6,26 @@ public class BasketBall {
 
 	private float RADIUS = 0.5f;
 	private float BACKBOARD_DISTANCE = 20f;
-	private float backboard_top = 5.3f;
-	private float backboard_bottom = 4.7f;
-	private float backboard_side = 0.75f;
+	private float backboard_top = 4f;
+	private float backboard_bottom = -4f;
+	private float backboard_side = 2.25f;
+	private float rim_height = 1.8f;
+	private float rim_middle = 25f;
+	private float rim_radius = 1.5f;
 	private float FLOOR = -0.5f;
-	private final float GRAVITY = -.3f;
-	private float XMIN;
-	private float XMAX;
-	private float YMIN;
-	private float YMAX;
-	private float ZMIN;
-	private float ZMAX;
+	private final float GRAVITY = -3.5f;
+	private float XMIN = 12f;
+	private float XMAX = -12f;
+	private float YMIN = -1.5f;
+	private float YMAX = 25f;
+	private float ZMIN = 24f;
+	private float ZMAX = -24f;
 	public float Vx = 0f;
 	public float Vy = 0f;
 	public float Vz = 0f;
 	public float x = 0f;
-	public float y = -3.0f;
-	public float z = 20.0f;
+	public float y = -0.5f;
+	public float z = 1.75f;
 
     public float getVx() {
         return Vx;
@@ -79,28 +82,62 @@ public class BasketBall {
 		z = z + Vz;
 
 
+        Log.i("Basketball VX", String.valueOf(Vx));
         Log.i("Basketball VY", String.valueOf(Vy));
-
-
-
-        if(check_rim_collision(x, y, z))
+        Log.i("Basketball VZ", String.valueOf(Vz));
+        
+        if(Math.abs(Vz) > 0.01)
+        {
+        	if(check_rim_collision(x, y, z))
+        	{
+        		//handle_rim_collision();
+        	}
+        	if(check_backboard_collision(x, y, z))
+        	{
+        		handle_backboard_collision();
+        	}
+//        	if(check_floor_collision())
+//        	{
+//        		handle_floor_collision();
+//        	}
+		
+        	check_bounds();
+        }
+		
+//		if(Math.abs(Vx-0f) > 0.5f)
+//		{
+//			Vx = Vx * 0.45f;
+//		}
+//		else
+//		{
+//			if(Math.abs(y) < 0.8f)
+//			{
+				Vx = 0.0f;
+//			}
+//		}
+		if(Math.abs(Vy-0f) > 0.05f)
 		{
-			//handle_rim_collision();
+			Vy = y>0 ? Vy + GRAVITY : (-Vy * .8f);
 		}
-		if(check_backboard_collision(x, y, z))
+//		else
+//		{
+//			if(Math.abs(y) < 0.8)
+//			{
+//				Vy = 0.0f;
+//				y = RADIUS;
+//			}
+//		}
+		if(Math.abs(Vz-0f) > 0.05f)
 		{
-			handle_backboard_collision();
+			Vz = Vz * 0.45f;
 		}
-		if(check_floor_collision())
-		{
-			handle_floor_collision();
-		}
-
-		//check_bounds();
-
-		Vx = Vx * 0.5f;
-		Vy = y>0 ? Vy + GRAVITY : (-Vy * .8f);
-		Vz = Vz * 0.5f;
+//		else
+//		{
+//			if(Math.abs(y) < 0.8)
+//			{
+//				Vz = 0.0f;
+//			}
+//		}
 	}
 	
 	
@@ -142,19 +179,17 @@ public class BasketBall {
 		return;
 	}
 	
-	
 	private void handle_backboard_collision()
 	{
-		Vx = -1*(Vx - (Vx*0.15f));	//reverse x velocity and subtract for elastic collision
-		Vy = -1*(Vy - (Vy*0.15f));	//reverse y velocity and subtract for elastic collision
-		Vz = -1*(Vz - (Vz*0.15f));	//reverse z velocity and subtract for elastic collision
+		Vx = -1*(Vx*0.85f);	//reverse x velocity and subtract for elastic collision
+		Vy = -1*(Vy*0.85f);	//reverse y velocity and subtract for elastic collision
+		Vz = -1*(Vz*0.85f);	//reverse z velocity and subtract for elastic collision
 	}
-	
 	
 	private void handle_floor_collision()
 	{
-		Vx = Vx * 0.1f;				//slow x by 10% for collision
-		//Vy = -Vy;  //reverse y direction, but only at 80% of velocity for elastic collision with floor.
+		Vx = Vx * 0.9f;				//slow x by 10% for collision
+		Vy = -1*(Vy*0.8f);  //reverse y direction, but only at 80% of velocity for elastic collision with floor.
 		Vz = Vz * 0.9f;				//slow z by 10% for collision
 //		if(Vx < 0.000001)
 //		{
@@ -166,27 +201,27 @@ public class BasketBall {
 	{
 		//bounds test
 		if(x + RADIUS > XMAX) {
-			Vx = -1*(Vx - (Vx*0.15f));
+			Vx = -1*(Vx*0.85f);
 			x = XMAX - RADIUS;
 		}
 		else if (x - RADIUS < XMIN) {
-			Vx = -1*(Vx - (Vx*0.15f));
+			Vx = -1*(Vx*0.85f);
 			x = XMIN + RADIUS;
 		}
 	    if (y + RADIUS > YMAX) {
-	         Vy = -1*(Vy - (Vy*0.15f));
+	         Vy = -1*(Vy*0.85f);
 	         y = YMAX - RADIUS;
 	    } 
 	    else if (y - RADIUS < YMIN) {
-	         Vy = -1*(Vy - (Vy*0.15f));
+	         Vy = -1*(Vy*0.85f);
 	         y = YMIN + RADIUS;
 	    }
 	    if (z + RADIUS > ZMAX) {
-	         Vz = -1*(Vz - (Vy*0.15f));
+	         Vz = -1*(Vz*0.85f);
 	         z = ZMAX - RADIUS;
 	    } 
 	    else if (z - RADIUS < ZMIN) {
-	         Vz = -1*(Vz - (Vz*0.15f));
+	         Vz = -1*(Vz*0.85f);
 	         z = ZMIN + RADIUS;
 	    }
 	}

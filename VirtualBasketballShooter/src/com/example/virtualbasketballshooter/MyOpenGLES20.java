@@ -167,7 +167,7 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
                 if (true)
                 {		//integrate to get Newtonian velocity
                     dt = (event.timestamp - last_timestamp) * ns_to_s;
-                    bball.basketball.setVx(velocityX/2); // + mLastX) / (2*dt));
+                    bball.basketball.setVx(0); //velocityX/2); // + mLastX) / (2*dt));
                     bball.basketball.setVy(velocityY/2);
                     bball.basketball.setVz(velocityZ/2);
                 }
