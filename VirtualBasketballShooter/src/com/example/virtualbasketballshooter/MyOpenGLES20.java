@@ -73,6 +73,8 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
 		final ImageButton aimDown = (ImageButton)findViewById(R.id.down_arrow);
 		final ImageButton moveLeft = (ImageButton)findViewById(R.id.left_button);
 		final ImageButton moveRight = (ImageButton)findViewById(R.id.right_button);
+		final ImageButton speedUp = (ImageButton)findViewById(R.id.speed_up);
+		final ImageButton slowDown = (ImageButton)findViewById(R.id.speed_down);
 		
 		//set onclick listeners for each button
 		aimUp.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +118,34 @@ public class MyOpenGLES20 extends Activity implements SensorEventListener {
 	        @Override
 	        public void onClick(View v) {
                 eyeX -= .1f;
+	        }
+	    });
+		
+		speedUp.setOnClickListener(new View.OnClickListener() {
+	        @Override
+	        public void onClick(View v) {
+                if(speed == 900)
+                {
+                	speed = 750;
+                }
+                else if(speed == 750)
+                {
+                	speed = 0;
+                }
+	        }
+	    });
+		
+		slowDown.setOnClickListener(new View.OnClickListener() {
+	        @Override
+	        public void onClick(View v) {
+                if(speed == 0)
+                {
+                	speed = 750;
+                }
+                else if (speed == 750)
+                {
+                	speed = 900;
+                }
 	        }
 	    });
 
