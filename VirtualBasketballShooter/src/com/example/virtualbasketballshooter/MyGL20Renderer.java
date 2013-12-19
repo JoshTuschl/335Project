@@ -7,6 +7,7 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.SystemClock;
+import android.util.Log;
 
 
 //a renderer that can draw and manipulate objects
@@ -22,20 +23,12 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	private Cube mEndBumper;
 	private Cube mSideBumper;
 	private Sphere mSphere; 
-	public BasketBall basketball;
+	public static BasketBall basketball;
     private Sphere mRim;
     private Cube mFloor;
-    private Circle mRim2;
 
 	public volatile float mAngle; // use volatile because we modify it in other classes
-	public volatile float mAngleY; 
-	public volatile float ax;
-	public volatile float ay;
-	public volatile float az;
-	public volatile float dt;
-	public volatile float Vx = 0f;
-	public volatile float Vy = 0f;
-	public volatile float Vz = 0f;
+	public volatile float mAngleY;
 	public volatile float ballspeed;
 	public volatile float scale=1;
 	public float x=0f;
@@ -44,7 +37,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	private float eyeX = 0f;
 	private float eyeY = 0f;
 	private float eyeZ = -5f;
-	private float lookX = 0f;
+	public volatile float lookX = 0f;
 	private float lookY = 0f;
 	private float lookZ = 0f;
 	
@@ -100,11 +93,7 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		mPole = new Cube();
         mFloor = new Cube();
 		basketball = new BasketBall();
-        mRim2 = new Circle();
 
-		basketball.Vx = Vx;
-		basketball.Vy = Vy;
-		basketball.Vz = Vz;
 
 		mSphere = new Sphere(1.0f, 35, 35);
         mRim = new Sphere(.5f, 40,40);
@@ -115,8 +104,6 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 	public void onDrawFrame(GL10 gl) {
 		// Redraw background color
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT|GLES20.GL_DEPTH_BUFFER_BIT);
-		
-		
 		// Set the camera position (View matrix)  //(CameraViewMatrix, offset, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ)
 		Matrix.setLookAtM(mVMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, 0f, 1.0f, 0.0f);
 		
@@ -156,17 +143,15 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		mBackboard.draw(mBackboardMVPMatrix, mNormalMat, Opaque);
 		
 		basketball.updateBall(ballspeed);
-		Matrix.translateM(mSphereMVPMatrix, 0, basketball.x, basketball.y, basketball.z); //basketball
+
 		Matrix.scaleM(mSphereMVPMatrix, 0, 0.5f, 0.5f, 0.5f);	//set dimentions of basketball
-		
-		//Matrix.translateM(mSphereMVPMatrix, 0, 0.0f, -3.0f, -20.0f);
+        Matrix.translateM(mSphereMVPMatrix, 0, basketball.getX(), basketball.getY(), basketball.getZ()); //basketball
+		//Matrix.translateM(mSphereMVPMatrix, 0, 0.0f, -3.0f, 20.0f);
 		mSphere.draw(mSphereMVPMatrix, mNormalMat, mTemp, BasketballOrange);
 
         Matrix.scaleM(mRimMVPMatrix, 0, 0.75f, .01f, 0.75f);	//set dimentions of rim
         Matrix.translateM(mRimMVPMatrix, 0, 0.0f, 180.0f, -33.33f); //rim
         mRim.draw(mRimMVPMatrix, mNormalMat ,mTemp, METAL);
-
-        mRim2.draw();
 		
 		//scale = 1.0f; 
 		Matrix.scaleM(mPoleMVPMatrix, 0, 0.1f, 1.0f, 0.1f);	//set dimensions of pole

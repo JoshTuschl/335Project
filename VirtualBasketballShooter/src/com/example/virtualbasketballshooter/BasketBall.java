@@ -1,5 +1,7 @@
 package com.example.virtualbasketballshooter;
 
+import android.util.Log;
+
 public class BasketBall {
 
 	private float RADIUS = 0.5f;
@@ -8,7 +10,7 @@ public class BasketBall {
 	private float backboard_bottom = 4.7f;
 	private float backboard_side = 0.75f;
 	private float FLOOR = -0.5f;
-	private final float GRAVITY = -9.81f;
+	private final float GRAVITY = -.3f;
 	private float XMIN;
 	private float XMAX;
 	private float YMIN;
@@ -20,15 +22,68 @@ public class BasketBall {
 	public float Vz = 0f;
 	public float x = 0f;
 	public float y = -3.0f;
-	public float z = -20.0f;
-	
-	public void updateBall(float velocity)
+	public float z = 20.0f;
+
+    public float getVx() {
+        return Vx;
+    }
+
+    public void setVx(float vx) {
+        Vx = vx;
+    }
+
+    public float getVy() {
+        return Vy;
+    }
+
+    public void setVy(float vy) {
+        Vy = vy;
+    }
+
+    public float getVz() {
+        return Vz;
+    }
+
+    public void setVz(float vz) {
+        Vz = vz;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public float getZ() {
+        return z;
+    }
+
+    public void setZ(float z) {
+        this.z = z;
+    }
+
+    public void updateBall(float velocity)
 	{
 		x = x + Vx;
 		y = y + Vy;
 		z = z + Vz;
-		
-		if(check_rim_collision(x, y, z))
+
+
+        Log.i("Basketball VY", String.valueOf(Vy));
+
+
+
+        if(check_rim_collision(x, y, z))
 		{
 			//handle_rim_collision();
 		}
@@ -36,16 +91,16 @@ public class BasketBall {
 		{
 			handle_backboard_collision();
 		}
-		if(check_floor_collision(y))
+		if(check_floor_collision())
 		{
 			handle_floor_collision();
 		}
-		
-		check_bounds();
-		
-		Vx = Vx * 0.99f;
-		Vy = Vy - GRAVITY;
-		Vz = Vz * 0.99f;
+
+		//check_bounds();
+
+		Vx = Vx * 0.5f;
+		Vy = y>0 ? Vy + GRAVITY : (-Vy * .8f);
+		Vz = Vz * 0.5f;
 	}
 	
 	
@@ -72,7 +127,7 @@ public class BasketBall {
 	}
 	
 	
-	public boolean check_floor_collision(float y)
+	public boolean check_floor_collision()
 	{
 		if((y-RADIUS) < FLOOR + 0.01)
 		{
@@ -98,8 +153,8 @@ public class BasketBall {
 	
 	private void handle_floor_collision()
 	{
-		Vx = Vx * 0.9f;				//slow x by 10% for collision
-		Vy = -1*(Vy - (Vy*0.8f));  //reverse y direction, but only at 80% of velocity for elastic collision with floor.
+		Vx = Vx * 0.1f;				//slow x by 10% for collision
+		//Vy = -Vy;  //reverse y direction, but only at 80% of velocity for elastic collision with floor.
 		Vz = Vz * 0.9f;				//slow z by 10% for collision
 //		if(Vx < 0.000001)
 //		{
