@@ -68,12 +68,12 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
     private final float[] mLeftSideMVPMatrix = new float[16];
     
     //skybox
-    private final float[] mTopMVPMatrix = new float[16];
-    private final float[] mBottomMVPMatrix = new float[16];
-    private final float[] mSide_oneMVPMatrix = new float[16];
-    private final float[] mSide_twoMVPMatrix = new float[16];
-    private final float[] mSide_threeMVPMatrix = new float[16];
-    private final float[] mSide_fourMVPMatrix = new float[16];
+//    private final float[] mTopMVPMatrix = new float[16];
+//    private final float[] mBottomMVPMatrix = new float[16];
+//    private final float[] mSide_oneMVPMatrix = new float[16];
+//    private final float[] mSide_twoMVPMatrix = new float[16];
+//    private final float[] mSide_threeMVPMatrix = new float[16];
+//    private final float[] mSide_fourMVPMatrix = new float[16];
     
 	//colors
 	private final float[] GREEN = new float[]{(float)(49.0/255.0), (float)(153.0/255.0), (float)(94.0/255.0), 1.0f};
@@ -121,18 +121,18 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
         mBackdrop = new TextureCube();
         mBackdrop.loadGLTexture(appContext, R.drawable.uk2);
         //skybox
-        mTop = new TextureCube();
-        mTop.loadGLTexture(appContext, R.drawable.ceiling);
-        mBottom = new TextureCube();
-        mBottom.loadGLTexture(appContext, R.drawable.antelope_canyon);
-        mSide_one = new TextureCube();
-        mSide_one.loadGLTexture(appContext, R.drawable.rupp_arena);
-        mSide_two = new TextureCube();
-        mSide_two.loadGLTexture(appContext, R.drawable.rupp_stands);
-        mSide_three = new TextureCube();
-        mSide_three.loadGLTexture(appContext, R.drawable.wideshot_rupp_arena);
-        mSide_four = new TextureCube();
-        mSide_four.loadGLTexture(appContext, R.drawable.nbbj_rupp_arena_bowl);
+//        mTop = new TextureCube();
+//        mTop.loadGLTexture(appContext, R.drawable.ceiling);
+//        mBottom = new TextureCube();
+//        mBottom.loadGLTexture(appContext, R.drawable.antelope_canyon);
+//        mSide_one = new TextureCube();
+//        mSide_one.loadGLTexture(appContext, R.drawable.rupp_arena);
+//        mSide_two = new TextureCube();
+//        mSide_two.loadGLTexture(appContext, R.drawable.rupp_stands);
+//        mSide_three = new TextureCube();
+//        mSide_three.loadGLTexture(appContext, R.drawable.wideshot_rupp_arena);
+//        mSide_four = new TextureCube();
+//        mSide_four.loadGLTexture(appContext, R.drawable.nbbj_rupp_arena_bowl);
 
 
 		mSphere = new Sphere(1.0f, 35, 35);
@@ -175,12 +175,13 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(mRightSideMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
         Matrix.multiplyMM(mLeftSideMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
         
-        Matrix.multiplyMM(mTopMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
-        Matrix.multiplyMM(mBottomMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
-        Matrix.multiplyMM(mSide_oneMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
-        Matrix.multiplyMM(mSide_twoMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
-        Matrix.multiplyMM(mSide_threeMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
-        Matrix.multiplyMM(mSide_fourMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+        //skybox
+//        Matrix.multiplyMM(mTopMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+//        Matrix.multiplyMM(mBottomMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+//        Matrix.multiplyMM(mSide_oneMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+//        Matrix.multiplyMM(mSide_twoMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+//        Matrix.multiplyMM(mSide_threeMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+//        Matrix.multiplyMM(mSide_fourMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
         
 		
 		// normal mat = transpose(inv(modelview)); 
@@ -238,29 +239,29 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
         mFloor.draw(mFloorMVPMatrix, mNormalMat, BROWN);
         
         //skybox
-        Matrix.scaleM(mTopMVPMatrix, 0, 25f, 5f, 40f);	//top of sky box
-		Matrix.translateM(mTopMVPMatrix, 0, 0.0f, 30.0f, 0.0f); //top
-		mTop.draw(mTopMVPMatrix, mNormalMat);
-		
-		Matrix.scaleM(mBottomMVPMatrix, 0, 25.0f, 5.0f, 40.0f);	//set dimensions of bottom of sky box
-		Matrix.translateM(mBottomMVPMatrix, 0, 0.0f, -10.0f, 0.0f); //bottom
-		mBottom.draw(mBottomMVPMatrix, mNormalMat);
-		
-		Matrix.scaleM(mBackboardMVPMatrix, 0, 5.0f, 40f, 40.0f);	//set dimensions of side_one
-		Matrix.translateM(mBackboardMVPMatrix, 0, -12.5f, -10.0f, 0.0f); //1st side
-		mSide_one.draw(mSide_oneMVPMatrix, mNormalMat);
-		
-		Matrix.scaleM(mBackboardMVPMatrix, 0, 25.0f, 40f, 5.0f);	//set dimensions of second_side
-		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, -10.0f, 20.0f); //2nd side
-		mSide_two.draw(mSide_twoMVPMatrix, mNormalMat);
-		
-		Matrix.scaleM(mBackboardMVPMatrix, 0, -5.0f, 40f, 40f);	//set dimensions of third_side
-		Matrix.translateM(mBackboardMVPMatrix, 0, 12.5f, -10.0f, 0.0f); //3rd side
-		mSide_three.draw(mSide_threeMVPMatrix, mNormalMat);
-		
-		Matrix.scaleM(mBackboardMVPMatrix, 0, 25.0f, 40f, -5.0f);	//set dimensions of fourth side
-		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, -10.0f, -20.0f); //4th side
-		mSide_four.draw(mSide_fourMVPMatrix, mNormalMat);
+//        Matrix.scaleM(mTopMVPMatrix, 0, 25f, 5f, 40f);	//top of sky box
+//		Matrix.translateM(mTopMVPMatrix, 0, 0.0f, 30.0f, 0.0f); //top
+//		mTop.draw(mTopMVPMatrix, mNormalMat);
+//		
+//		Matrix.scaleM(mBottomMVPMatrix, 0, 25.0f, 5.0f, 40.0f);	//set dimensions of bottom of sky box
+//		Matrix.translateM(mBottomMVPMatrix, 0, 0.0f, -10.0f, 0.0f); //bottom
+//		mBottom.draw(mBottomMVPMatrix, mNormalMat);
+//		
+//		Matrix.scaleM(mBackboardMVPMatrix, 0, 5.0f, 40f, 40.0f);	//set dimensions of side_one
+//		Matrix.translateM(mBackboardMVPMatrix, 0, -12.5f, -10.0f, 0.0f); //1st side
+//		mSide_one.draw(mSide_oneMVPMatrix, mNormalMat);
+//		
+//		Matrix.scaleM(mBackboardMVPMatrix, 0, 25.0f, 40f, 5.0f);	//set dimensions of second_side
+//		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, -10.0f, 20.0f); //2nd side
+//		mSide_two.draw(mSide_twoMVPMatrix, mNormalMat);
+//		
+//		Matrix.scaleM(mBackboardMVPMatrix, 0, -5.0f, 40f, 40f);	//set dimensions of third_side
+//		Matrix.translateM(mBackboardMVPMatrix, 0, 12.5f, -10.0f, 0.0f); //3rd side
+//		mSide_three.draw(mSide_threeMVPMatrix, mNormalMat);
+//		
+//		Matrix.scaleM(mBackboardMVPMatrix, 0, 25.0f, 40f, -5.0f);	//set dimensions of fourth side
+//		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, -10.0f, -20.0f); //4th side
+//		mSide_four.draw(mSide_fourMVPMatrix, mNormalMat);
 		
 	}
 

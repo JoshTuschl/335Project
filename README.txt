@@ -12,3 +12,4 @@ Multimedia content (sound files)
 Complete model 
 
 We also added the additional functionality of a reset for next shot on long press.
+we attempted a sky box, but it looked all wrong so we have commented that out.
