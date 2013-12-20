@@ -30,6 +30,12 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
     private TextureCube mBackdrop;
     private TextureCube mRightSide;
     private TextureCube mLeftSide;
+    private TextureCube mTop;
+    private TextureCube mBottom;
+    private TextureCube mSide_one;
+    private TextureCube mSide_two;
+    private TextureCube mSide_three;
+    private TextureCube mSide_four;
     private Context appContext;
 
 	public volatile float mAngle; // use volatile because we modify it in other classes
@@ -60,7 +66,15 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
     private final float[] mFloorMVPMatrix = new float[16];
     private final float[] mRightSideMVPMatrix = new float[16];
     private final float[] mLeftSideMVPMatrix = new float[16];
-	
+    
+    //skybox
+    private final float[] mTopMVPMatrix = new float[16];
+    private final float[] mBottomMVPMatrix = new float[16];
+    private final float[] mSide_oneMVPMatrix = new float[16];
+    private final float[] mSide_twoMVPMatrix = new float[16];
+    private final float[] mSide_threeMVPMatrix = new float[16];
+    private final float[] mSide_fourMVPMatrix = new float[16];
+    
 	//colors
 	private final float[] GREEN = new float[]{(float)(49.0/255.0), (float)(153.0/255.0), (float)(94.0/255.0), 1.0f};
 	private final float[] BROWN = new float[]{(float)(69.0/255.0), (float)(42.0/255.0), (float)(14.0/255.0), 1.0f};
@@ -106,6 +120,19 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
         mLeftSide.loadGLTexture(appContext, R.drawable.uk1);
         mBackdrop = new TextureCube();
         mBackdrop.loadGLTexture(appContext, R.drawable.uk2);
+        //skybox
+        mTop = new TextureCube();
+        mTop.loadGLTexture(appContext, R.drawable.ceiling);
+        mBottom = new TextureCube();
+        mBottom.loadGLTexture(appContext, R.drawable.antelope_canyon);
+        mSide_one = new TextureCube();
+        mSide_one.loadGLTexture(appContext, R.drawable.rupp_arena);
+        mSide_two = new TextureCube();
+        mSide_two.loadGLTexture(appContext, R.drawable.rupp_stands);
+        mSide_three = new TextureCube();
+        mSide_three.loadGLTexture(appContext, R.drawable.wideshot_rupp_arena);
+        mSide_four = new TextureCube();
+        mSide_four.loadGLTexture(appContext, R.drawable.nbbj_rupp_arena_bowl);
 
 
 		mSphere = new Sphere(1.0f, 35, 35);
@@ -147,6 +174,14 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(mBackdropMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
         Matrix.multiplyMM(mRightSideMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
         Matrix.multiplyMM(mLeftSideMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+        
+        Matrix.multiplyMM(mTopMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+        Matrix.multiplyMM(mBottomMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+        Matrix.multiplyMM(mSide_oneMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+        Matrix.multiplyMM(mSide_twoMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+        Matrix.multiplyMM(mSide_threeMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+        Matrix.multiplyMM(mSide_fourMVPMatrix,  0,  mTemp, 0, mRotationMatrix,  0);
+        
 		
 		// normal mat = transpose(inv(modelview)); 
 		Matrix.multiplyMM(mTemp, 0, mVMatrix, 0, mRotationMatrix, 0);
@@ -155,16 +190,16 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 		Matrix.invertM(tt, 0, mTemp, 0);
 		Matrix.transposeM(mNormalMat, 0, tt, 0);
 
-        Matrix.scaleM(mBackdropMVPMatrix, 0, -15.0f, 13.8f, 15.0f);	//set dimensions of backboard
-        Matrix.translateM(mBackdropMVPMatrix, 0, 0.0f, 0.8f, 3.0f); //backboard
+        Matrix.scaleM(mBackdropMVPMatrix, 0, -15.0f, 13.8f, 15.0f);	//set dimensions of center backdrop
+        Matrix.translateM(mBackdropMVPMatrix, 0, 0.0f, 0.8f, 3.0f); //center background
         mBackdrop.draw(mBackdropMVPMatrix, mNormalMat);
 
-        Matrix.scaleM(mRightSideMVPMatrix, 0, -5.0f, -18.0f, 15.0f);	//set dimensions of backboard
-        Matrix.translateM(mRightSideMVPMatrix, 0, 5.0f, -0.8f, 3.0f); //backboard
+        Matrix.scaleM(mRightSideMVPMatrix, 0, -5.0f, -18.0f, 15.0f);	//set dimensions of right backdrop
+        Matrix.translateM(mRightSideMVPMatrix, 0, 5.0f, -0.8f, 3.0f); //right background
         mRightSide.draw(mRightSideMVPMatrix, mNormalMat);
 
-        Matrix.scaleM(mLeftSideMVPMatrix, 0, 5.0f, -18.0f, 15.0f);	//set dimensions of backboard
-        Matrix.translateM(mLeftSideMVPMatrix, 0, 5.0f, -0.8f, 3.0f); //backboard
+        Matrix.scaleM(mLeftSideMVPMatrix, 0, 5.0f, -18.0f, 15.0f);	//set dimensions of left backdrop
+        Matrix.translateM(mLeftSideMVPMatrix, 0, 5.0f, -0.8f, 3.0f); //left background
         mLeftSide.draw(mLeftSideMVPMatrix, mNormalMat);
 		
 		Matrix.scaleM(mBackboardMVPMatrix, 0, 4.5f, 1.6f, 0.1f);	//set dimensions of backboard
@@ -201,61 +236,33 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
         Matrix.scaleM(mFloorMVPMatrix, 0, 12.0f, 0.01f, 25.0f);	//set dimensions of floor
         Matrix.translateM(mFloorMVPMatrix, 0, 0f, -200.0f, 0.0f);
         mFloor.draw(mFloorMVPMatrix, mNormalMat, BROWN);
-
-//		Matrix.scaleM(mSquareMVPMatrix, 0, 1.0f, 0.1f, 0.0f);//set dimensions of backboard square
-//		Matrix.translateM(mSquareMVPMatrix, 0, 0.0f, 50.0f, 0.0f); //1st End Bumper
-//		mSquare.draw(mSquareMVPMatrix);
-//		mEndBumper.draw(mSquareMVPMatrix, mNormalMat, BROWN);
-//		Matrix.translateM(mSquareMVPMatrix, 0, 0.0f, 58.0f, 0.0f); //2nd End Bumper
-//		mSquare.draw(mSquareMVPMatrix);
-//		mEndBumper.draw(mSquareMVPMatrix, mNormalMat, BROWN);
+        
+        //skybox
+//        Matrix.scaleM(mTopMVPMatrix, 0, 25f, 5f, 40f);	//top of sky box
+//		Matrix.translateM(mTopMVPMatrix, 0, 0.0f, 30.0f, 0.0f); //top
+//		mTop.draw(mTopMVPMatrix, mNormalMat);
 //		
+//		Matrix.scaleM(mBottomMVPMatrix, 0, 25.0f, 5.0f, 40.0f);	//set dimensions of bottom of sky box
+//		Matrix.translateM(mBottomMVPMatrix, 0, 0.0f, -10.0f, 0.0f); //bottom
+//		mBottom.draw(mBottomMVPMatrix, mNormalMat);
 //		
-//		Matrix.scaleM(mSideMVPMatrix, 0, 0.1f, 1.5f, 0.2f); //set dimensions of Side Bumper
-//		Matrix.translateM(mSideMVPMatrix, 0, 19.0f, 0.0f, 0.0f); //1st Side Bumper
-//		mSideBumper.draw(mSideMVPMatrix, mNormalMat, BROWN);
-//		Matrix.translateM(mSideMVPMatrix, 0, -38.0f, 0.0f, 0.0f); //2nd Side Bumper
-//		mSideBumper.draw(mSideMVPMatrix, mNormalMat, BROWN);
+//		Matrix.scaleM(mBackboardMVPMatrix, 0, 5.0f, 40f, 40.0f);	//set dimensions of side_one
+//		Matrix.translateM(mBackboardMVPMatrix, 0, -12.5f, -10.0f, 0.0f); //1st side
+//		mSide_one.draw(mSide_oneMVPMatrix, mNormalMat);
 //		
-		
-		
-		
-		
-//		Matrix.translateM(mLegMVPMatrix, 0, 0.0f, -56.0f, 0.0f); //2nd leg
-//		mLeg.draw(mLegMVPMatrix, mNormalMat, BROWN);
-//		Matrix.translateM(mLegMVPMatrix, 0, -18.f, 0.0f, 0.0f); //3rd leg
-//		mLeg.draw(mLegMVPMatrix, mNormalMat, BROWN);
-//		Matrix.translateM(mLegMVPMatrix, 0, 0.0f, 56.0f, 0.0f); //4th leg
-//		mLeg.draw(mLegMVPMatrix, mNormalMat, BROWN);
-		
-		
-		 
-		
-		/*
-		float [] t2 = new float[16]; 
-		
-		for (int kk = 0; kk< 16; kk++) t2[kk] = mMVPMatrix[kk]; 
-		Matrix.scaleM(t2, 0, 2.0f, 0.5f, 0.5f);
-		Matrix.translateM(t2, 0, 1.0f, 0, 0);
-		
-		mSphere.draw(t2, mNormalMat); 
-		*/
-		
-		
-		// Create a rotation transformation for the triangle
-//		long time = SystemClock.uptimeMillis() % 4000L;
-//		float angle = 0.090f * ((int) time);
-		// instead of rotate automatically, we use mAngle
-		
-
-		// Combine the rotation matrix with the projection and camera view
-		//Matrix.multiplyMM(mMVPMatrix,  0,  mRotationMatrix,  0,  mMVPMatrix,  0);
-		
-		// Draw shape
-		//mTriangle.draw(mMVPMatrix);
+//		Matrix.scaleM(mBackboardMVPMatrix, 0, 25.0f, 40f, 5.0f);	//set dimensions of second_side
+//		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, -10.0f, 20.0f); //2nd side
+//		mSide_two.draw(mSide_twoMVPMatrix, mNormalMat);
+//		
+//		Matrix.scaleM(mBackboardMVPMatrix, 0, -5.0f, 40f, 40f);	//set dimensions of third_side
+//		Matrix.translateM(mBackboardMVPMatrix, 0, 12.5f, -10.0f, 0.0f); //3rd side
+//		mSide_three.draw(mSide_threeMVPMatrix, mNormalMat);
+//		
+//		Matrix.scaleM(mBackboardMVPMatrix, 0, 25.0f, 40f, -5.0f);	//set dimensions of fourth side
+//		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, -10.0f, -20.0f); //4th side
+//		mSide_four.draw(mSide_fourMVPMatrix, mNormalMat);
 		
 	}
-
 
     // Called if the geometry of the view changes
 	@Override
