@@ -183,7 +183,9 @@ public class BasketBall {
 	
 	private void handle_rim_collision()
 	{
-		
+		Vx = -1*(Vx*0.85f);	//reverse x velocity and subtract for elastic collision
+		Vy = -1*(Vy*0.85f);	//reverse y velocity and subtract for elastic collision
+		Vz = -1*(Vz*0.85f);	//reverse z velocity and subtract for elastic collision
 		return;
 	}
 	
