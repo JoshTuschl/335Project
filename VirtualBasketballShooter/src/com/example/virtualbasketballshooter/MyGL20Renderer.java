@@ -238,29 +238,29 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
         mFloor.draw(mFloorMVPMatrix, mNormalMat, BROWN);
         
         //skybox
-//        Matrix.scaleM(mTopMVPMatrix, 0, 25f, 5f, 40f);	//top of sky box
-//		Matrix.translateM(mTopMVPMatrix, 0, 0.0f, 30.0f, 0.0f); //top
-//		mTop.draw(mTopMVPMatrix, mNormalMat);
-//		
-//		Matrix.scaleM(mBottomMVPMatrix, 0, 25.0f, 5.0f, 40.0f);	//set dimensions of bottom of sky box
-//		Matrix.translateM(mBottomMVPMatrix, 0, 0.0f, -10.0f, 0.0f); //bottom
-//		mBottom.draw(mBottomMVPMatrix, mNormalMat);
-//		
-//		Matrix.scaleM(mBackboardMVPMatrix, 0, 5.0f, 40f, 40.0f);	//set dimensions of side_one
-//		Matrix.translateM(mBackboardMVPMatrix, 0, -12.5f, -10.0f, 0.0f); //1st side
-//		mSide_one.draw(mSide_oneMVPMatrix, mNormalMat);
-//		
-//		Matrix.scaleM(mBackboardMVPMatrix, 0, 25.0f, 40f, 5.0f);	//set dimensions of second_side
-//		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, -10.0f, 20.0f); //2nd side
-//		mSide_two.draw(mSide_twoMVPMatrix, mNormalMat);
-//		
-//		Matrix.scaleM(mBackboardMVPMatrix, 0, -5.0f, 40f, 40f);	//set dimensions of third_side
-//		Matrix.translateM(mBackboardMVPMatrix, 0, 12.5f, -10.0f, 0.0f); //3rd side
-//		mSide_three.draw(mSide_threeMVPMatrix, mNormalMat);
-//		
-//		Matrix.scaleM(mBackboardMVPMatrix, 0, 25.0f, 40f, -5.0f);	//set dimensions of fourth side
-//		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, -10.0f, -20.0f); //4th side
-//		mSide_four.draw(mSide_fourMVPMatrix, mNormalMat);
+        Matrix.scaleM(mTopMVPMatrix, 0, 25f, 5f, 40f);	//top of sky box
+		Matrix.translateM(mTopMVPMatrix, 0, 0.0f, 30.0f, 0.0f); //top
+		mTop.draw(mTopMVPMatrix, mNormalMat);
+		
+		Matrix.scaleM(mBottomMVPMatrix, 0, 25.0f, 5.0f, 40.0f);	//set dimensions of bottom of sky box
+		Matrix.translateM(mBottomMVPMatrix, 0, 0.0f, -10.0f, 0.0f); //bottom
+		mBottom.draw(mBottomMVPMatrix, mNormalMat);
+		
+		Matrix.scaleM(mBackboardMVPMatrix, 0, 5.0f, 40f, 40.0f);	//set dimensions of side_one
+		Matrix.translateM(mBackboardMVPMatrix, 0, -12.5f, -10.0f, 0.0f); //1st side
+		mSide_one.draw(mSide_oneMVPMatrix, mNormalMat);
+		
+		Matrix.scaleM(mBackboardMVPMatrix, 0, 25.0f, 40f, 5.0f);	//set dimensions of second_side
+		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, -10.0f, 20.0f); //2nd side
+		mSide_two.draw(mSide_twoMVPMatrix, mNormalMat);
+		
+		Matrix.scaleM(mBackboardMVPMatrix, 0, -5.0f, 40f, 40f);	//set dimensions of third_side
+		Matrix.translateM(mBackboardMVPMatrix, 0, 12.5f, -10.0f, 0.0f); //3rd side
+		mSide_three.draw(mSide_threeMVPMatrix, mNormalMat);
+		
+		Matrix.scaleM(mBackboardMVPMatrix, 0, 25.0f, 40f, -5.0f);	//set dimensions of fourth side
+		Matrix.translateM(mBackboardMVPMatrix, 0, 0.0f, -10.0f, -20.0f); //4th side
+		mSide_four.draw(mSide_fourMVPMatrix, mNormalMat);
 		
 	}
 
